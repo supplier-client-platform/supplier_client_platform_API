@@ -433,9 +433,9 @@ var BaseFormWizard = function() {
                     return false;
                 }
             },
-            onTabClick: function($tab, $navigation, $index) {
+           /* onTabClick: function($tab, $navigation, $index) {
                 return false;
-            }
+            } */
         });
     };
 
