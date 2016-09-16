@@ -138,5 +138,11 @@ Login
                 // Init page helpers (Slick Slider plugin)
                 App.initHelpers('slick');
             });
+            
+            
+            function signup(){
+                
+               location.href="{{URL::asset('signup')}}";
+            }
         </script>
 @endsection

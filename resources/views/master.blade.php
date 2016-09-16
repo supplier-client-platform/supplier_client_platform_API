@@ -62,7 +62,7 @@
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
         <!-- END Stylesheets -->
     </head>
-    <body>
+    <body style="">
         @yield('content')
 
 
@@ -77,6 +77,9 @@
         <script src="{{URL::asset('assets/js/app.js')}}"></script>
 
         <!-- Page JS Plugins -->
+        
+        
+         <script src="{{URL::asset('assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
         <script src="{{URL::asset('assets/js/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
         
 
