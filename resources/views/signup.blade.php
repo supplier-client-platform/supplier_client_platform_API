@@ -276,9 +276,9 @@ Signup
                                     <div class="tab-pane fade fade-right   push-50" id="validation-step4">
 
 
-                                        <a href="#terms" class="btn" data-toggle="collapse"> <h4>Terms and Conditions</h4></a>
+                                        <h4>Terms and Conditions</h4> 
                                         <hr/>
-                                        <div id="terms" data-spy="scroll" data-target=".collapse" data-offset="50" style="height:10rem"  class="collapse">
+                                        <div    style="height:30rem; overflow: scroll;"  >
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -301,7 +301,17 @@ Signup
                                               Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            
+                                               Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            
+                                               Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                         </div>
+                                        
+                                        <br>
                                         
                                         <div class="form-group">
                                     <div class="col-xs-12" style="text-align:right">
