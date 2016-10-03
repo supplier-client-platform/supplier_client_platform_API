@@ -63,13 +63,13 @@ Login
                     <!-- Login Block -->
                   
                     
-                    <div class="block block-themed animated fadeIn" style="height:41.5rem">
-                        <div class="block-header bg-primary">
+                    <div class="block block-themed animated fadeIn" style="height:48rem">
+                        <div class="block-header bg-primary login-title">
                            
                             <h3 class="block-title">Login</h3>
                         </div>
                         <div class="block-content block-content-full block-content-narrow">
-                            <form class="js-validation-login form-horizontal push-30-t push-50" action="index.html" method="post" autocomplete="off" >
+                            <form id="login-form" name="login-form" class="js-validation-login form-horizontal push-50-t push-50" autocomplete="off" onsubmit="return login()">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="form-material form-material-primary">
@@ -129,8 +129,8 @@ Login
 
 
 @section('js')
-       <script src="{{URL::asset('assets/js/pages/base_pages_login.js')}}"></script>
-              <script src="{{URL::asset('assets/js/plugins/slick/slick.min.js')}}"></script>
+        <script src="{{URL::asset('assets/js/pages/base_pages_login.js')}}"></script>
+        <script src="{{URL::asset('assets/js/plugins/slick/slick.min.js')}}"></script>
 
         <!-- Page JS Code -->
         <script>
@@ -141,8 +141,10 @@ Login
             
             
             function signup(){
-                
                location.href="{{URL::asset('signup')}}";
             }
+
         </script>
+
+        <script  src="{{URL::asset('assets/js/src/login.js')}}"></script>
 @endsection
