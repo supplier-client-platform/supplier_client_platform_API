@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         factory(App\Citylist::class, 20)->create();
         factory(App\User::class, 5)->create();
+        factory(App\Category::class, 5)->create();
     }
 }

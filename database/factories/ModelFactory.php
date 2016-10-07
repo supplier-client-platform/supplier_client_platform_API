@@ -26,3 +26,18 @@ $factory->define(App\Citylist::class, function (Faker\Generator $faker) {
         'city' => $faker->city
     ];
 });
+
+$factory->define(App\Category::class, function () {
+    $arr = [
+        'Food',
+        'Restaurants',
+        'Stationary',
+        'Electronics',
+        'Consumer Goods'
+    ];
+     $index = rand(0, (count($arr)-1));
+
+    return [
+      'name' => $arr[$index]
+    ];
+});

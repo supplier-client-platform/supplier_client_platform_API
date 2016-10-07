@@ -108,6 +108,7 @@ class UserController extends Controller
                 'bearer token' => $user->api_token
             ];
         } catch (Exception $e) {
+
             return response('Not found', 404);
         }
     }
