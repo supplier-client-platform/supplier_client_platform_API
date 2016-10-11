@@ -44,6 +44,22 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function() {
         Route::patch('users/regen_auth/user_id/{id}', 'UserController@regenerateUserAuth');
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
     });
+
+    Route::group(['prefix' => 'product'], function() {
+        Route::get('all', 'ProductController@index');
+        Route::get('product_id/{id}', 'ProductController@show');
+        Route::post('create/new', 'ProductController@create');
+        Route::post('update/{id}', 'ProductController@update');
+    });
+
+    Route::group(['prefix' => 'brand'], function(){
+        Route::get('all', 'BrandController@index');
+    });
+
+    Route::group(['prefix' => 'template'], function() {
+        Route::get('all', 'TemplateController@index');
+        Route::post('create/new', 'TemplateController@create');
+    });
 });
 
 
