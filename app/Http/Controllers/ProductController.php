@@ -16,31 +16,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $rq_name = $request->input('query');
-        $rq_status = $request->input('status');
-        $rq_brand_id = $request->input('brand');
-        $rq_market_id = $request->input('marketPlaceId'); // supplier id
-
-        try{
-            return DB::table('product')
-                ->select(
-                    'product.name',
-                    'brand.brandname',
-                    'product.img_url',
-                    'product.price',
-                    'product.status'
-                )
-                ->join('brand', 'product.brand_id', '=', 'brand.id')
-                ->where('product.name', 'like', '%'.$rq_name.'%')
-                ->where('product.supplier_id', $rq_market_id)
-                ->where('product.brand_id', $rq_brand_id)
-                ->Where('product.status', $rq_status)
-                ->paginate();
-
-        } catch(Exception $e) {
-            return response('Product not found', 404);
-        }
+    {        
+        $data = $request->all();
+        return Product::getProducts($data);
     }
 
     /**
@@ -96,15 +74,15 @@ class ProductController extends Controller
         try{
             $collection = DB::table('product')
                 ->select(
-                    'product.name',
-                    'brand.brandname',
-                    'product.img_url',
-                    'product.price',
-                    'product.status',
-                    'product.custom_attr',
-                    'product.supplier_id',
-                    'product.img_url'
-                )
+                'product.name',
+                'brand.brandname',
+                'product.img_url',
+                'product.price',
+                'product.status',
+                'product.custom_attr',
+                'product.supplier_id',
+                'product.img_url'
+            )
                 ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('product.id', $id)
                 ->get();
@@ -116,7 +94,7 @@ class ProductController extends Controller
             }
 
             return [
-              'data' => $collection
+                'data' => $collection
             ];
 
 
@@ -150,18 +128,18 @@ class ProductController extends Controller
 
         try{
             Product::where('id', $id)
-            ->update([
-                'name' => $data['name'],
-                'brand_id' => $data['brand'],
-                'price' => $data['price'],
-                'status' => $data['status'],
-                'custom_attr' => serialize(json_decode($data['customAttribs'])),
-                'supplier_id' => $data['marketPlaceId'],
-                'img_url' => url($image_url),
-                'description' => 'undefined',
-                'quantity' => 0,
-                'category_id' => 8, // TODO: Change this to something else
-            ]);
+                ->update([
+                    'name' => $data['name'],
+                    'brand_id' => $data['brand'],
+                    'price' => $data['price'],
+                    'status' => $data['status'],
+                    'custom_attr' => serialize(json_decode($data['customAttribs'])),
+                    'supplier_id' => $data['marketPlaceId'],
+                    'img_url' => url($image_url),
+                    'description' => 'undefined',
+                    'quantity' => 0,
+                    'category_id' => 8, // TODO: Change this to something else
+                ]);
 
             return response('Success', 200);    // XXX: Better option is to return the model itself.
 

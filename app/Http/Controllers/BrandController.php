@@ -19,6 +19,7 @@ class BrandController extends Controller
     {
 
         $supplier = $request->input('supplier_id');
+        
         try{
             return DB::table('brand')
                 ->select(
