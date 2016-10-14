@@ -11,6 +11,7 @@
 |
 */
 
+ 
 /*Route::get('/', function () {
     return view('welcome');
 });
@@ -34,7 +35,9 @@ Route::group(['middleware' => 'web'], function() {
 
 Route::group(['prefix' => 'api/v1'], function() {
 
+    // Every table that doesnt expose inserts/updates to the client goes to MiscellaneousController
     Route::get('cities/all', 'MiscellaneousController@getCityList');
+    Route::get('categories/all', 'MiscellaneousController@getCategoryList');
 
     // TODO: Write a middleware for access controlling later
     // --Tested!
@@ -50,6 +53,7 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group(['prefix' => 'product'], function() {
         Route::get('all', 'ProductController@index');
         Route::get('product_id/{id}', 'ProductController@show');
+        
         Route::post('create/new', 'ProductController@create');
         Route::post('update/{id}', 'ProductController@update');
     });

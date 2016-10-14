@@ -16,15 +16,18 @@ class TemplateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $supplier = $request->input('supplier_id');
         try{
             $template = DB::table('template')
                 ->select(
-                    'supplier_id',
-                    'name',
-                    'custom_attr'   // TODO: Check how to deserialize and paginate
-                )->get();
+                'supplier_id',
+                'name',
+                'custom_attr'   // TODO: Check how to deserialize and paginate
+            )
+                ->where('supplier_id',$supplier)
+                ->get();
 
             foreach ($template as $temp) {
                 $temp->custom_attr = unserialize($temp->custom_attr);

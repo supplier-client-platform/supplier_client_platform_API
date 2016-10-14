@@ -34,38 +34,24 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-
-        $img = $request->file('product_img');
-        if ($img != null || $img != '') {
-            $public_path = public_path();
-            $upload_path = '/product_img/';
-            $image_name = $request->input('name').str_random(4).'.jpg';
-            $img->move($public_path.$upload_path, $image_name);
-            $image_url = $upload_path.$image_name;
-        }
-        else {
-            throw new Exception("Error Processing Request", 1);
-        }
-
-        try{
+     
+        
             Product::create([
                 'name' => $data['name'],
-                'brand_id' => $data['brand'],
+                'brand_id' => $data['brand_id'],
                 'price' => $data['price'],
                 'status' => $data['status'],
-                'custom_attr' => serialize(json_decode($data['customAttribs'])),
-                'supplier_id' => $data['marketPlaceId'],
-                'img_url' => url($image_url),
+                'custom_attr' => serialize($data['custom_attr']),
+                'supplier_id' => $data['supplier_id'],
+                'img_url' =>  $data['img_url'], //'url($image_url)'
                 'description' => 'undefined',
                 'quantity' => 0,
-                'category_id' => 8, // TODO: Change this to something else
+                'category_id' => $data['category_id']
             ]);
 
             return response('Success', 200);    // XXX: Better option is to return the model itself.
 
-        } catch(Exception $e) {
-            return response('Error in creating a new product.', 400);
-        }
+        
     }
 
     /**
@@ -86,7 +72,8 @@ class ProductController extends Controller
                 'product.status',
                 'product.custom_attr',
                 'product.supplier_id',
-                'product.img_url'
+                'product.category_id',
+                'product.brand_id'
             )
                 ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('product.id', $id)

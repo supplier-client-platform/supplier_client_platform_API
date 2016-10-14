@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Citylist;
+use App\Category;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -26,7 +27,16 @@ class MiscellaneousController extends Controller
      */
     public function getCityList() {
         try{
-            return Citylist::paginate(15);
+            return Citylist::all();
+        } catch(Exception $e){
+            return response('Retireval failed.', 500);
+        }
+    }
+    
+    //product categories
+    public function getCategoryList() {
+        try{
+            return Category::all();
         } catch(Exception $e){
             return response('Retireval failed.', 500);
         }
