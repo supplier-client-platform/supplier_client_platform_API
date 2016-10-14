@@ -30,7 +30,9 @@ Route::group(['middleware' => 'web'], function() {
 });*/
 
 
-Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function() {
+// TODO : 'middleware' => 'auth:api'
+
+Route::group(['prefix' => 'api/v1'], function() {
 
     Route::get('cities/all', 'MiscellaneousController@getCityList');
 

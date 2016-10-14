@@ -17,12 +17,16 @@ class BrandController extends Controller
      */
     public function index()
     {
+
+        $supplier = $request->input('supplier_id');
         try{
             return DB::table('brand')
                 ->select(
-                    'id',
-                    'brandname'
-                )->paginate();
+                'id',
+                'brandname'
+            )
+                ->where('supplier_id',$supplier)
+                ->get();
         }catch (Exception $e) {
             return response('Error in retrieval', 500);
         }
