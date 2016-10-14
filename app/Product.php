@@ -16,8 +16,9 @@ class Product extends Model
 
     public static function getProducts($data){
 
-        try{
+    
             $productBuilder = self::select(
+                'product.id',
                 'product.name',
                 'brand.brandname',
                 'product.img_url',
@@ -39,8 +40,6 @@ class Product extends Model
             } 
             return $productBuilder->paginate(10);
 
-        } catch(Exception $e) {
-            return response('Product not found', 404);
-        }
+      
     }
 }

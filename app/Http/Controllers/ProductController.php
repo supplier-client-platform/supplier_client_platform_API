@@ -17,8 +17,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {        
+
         $data = $request->all();
-        return Product::getProducts($data);
+        try{
+            return Product::getProducts($data);
+        } catch(Exception $e) {
+            return response('Product not found', 404);
+        }
     }
 
     /**

@@ -15,7 +15,7 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $supplier = $request->input('supplier_id');
