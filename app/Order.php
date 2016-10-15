@@ -31,8 +31,8 @@ class Order extends Model
             ->join('customer', 'order.customer_id', '=', 'customer.id')
             ->where('order.supplier_id', $data['marketPlaceId']);
 
-        if (isset( $data['query'])) {
-            // What is meant by query here?
+        if (isset( $data['contact_number'])) {
+            $orderBuilder->where('customer.contact', 'like', '%'.$data['contact_number'].'%');
         }
 
         if (isset( $data['status'])) {
