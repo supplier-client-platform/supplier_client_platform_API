@@ -22,6 +22,7 @@ class TemplateController extends Controller
         try{
             $template = DB::table('template')
                 ->select(
+                'id',
                 'supplier_id',
                 'name',
                 'custom_attr'   // TODO: Check how to deserialize and paginate

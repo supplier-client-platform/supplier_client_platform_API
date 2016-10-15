@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Template;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
@@ -34,24 +35,33 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-     
-        
-            Product::create([
-                'name' => $data['name'],
-                'brand_id' => $data['brand_id'],
-                'price' => $data['price'],
-                'status' => $data['status'],
-                'custom_attr' => serialize($data['custom_attr']),
-                'supplier_id' => $data['supplier_id'],
-                'img_url' =>  $data['img_url'], //'url($image_url)'
-                'description' => 'undefined',
-                'quantity' => 0,
-                'category_id' => $data['category_id']
-            ]);
+ 
 
-            return response('Success', 200);    // XXX: Better option is to return the model itself.
+        Product::create([
+            'name' => $data['name'],
+            'brand_id' => $data['brand_id'],
+            'price' => $data['price'],
+            'status' => $data['status'],
+            'custom_attr' => serialize($data['custom_attr']),
+            'supplier_id' => $data['supplier_id'],
+            'img_url' =>  $data['img_url'],
+            'description' => 'undefined',
+            'quantity' => 0,
+            'category_id' => $data['category_id']
+        ]);
 
-        
+        //if the template is new
+        if($data['template_id'] =='0'){
+            $template = new Template;
+            $template->name = $data['template_name'];
+            $template->supplier_id = $data['supplier_id'];
+            $template->custom_attr = serialize($data['custom_attr']);
+            $template->save();
+        }
+
+        return response('Success', 200);    // XXX: Better option is to return the model itself.
+
+
     }
 
     /**
