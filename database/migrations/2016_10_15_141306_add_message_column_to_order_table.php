@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnsToOrderTable extends Migration
+class AddMessageColumnToOrderTable extends Migration
 {
     /**
      * Run the migrations.
