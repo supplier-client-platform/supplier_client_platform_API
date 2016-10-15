@@ -27,15 +27,9 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Create a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $data = $request->all();
- 
 
         Product::create([
             'name' => $data['name'],
@@ -116,6 +110,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
+        // TODO: Remove this piece of code
         $img = $request->file('product_img');
         if ($img != null || $img != '') {
             $public_path = public_path();
@@ -137,7 +132,7 @@ class ProductController extends Controller
                     'status' => $data['status'],
                     'custom_attr' => serialize(json_decode($data['customAttribs'])),
                     'supplier_id' => $data['marketPlaceId'],
-                    'img_url' => url($image_url),
+                    'img_url' => url($image_url),   // TODO : Change image_url to file here.
                     'description' => 'undefined',
                     'quantity' => 0,
                     'category_id' => 8, // TODO: Change this to something else
