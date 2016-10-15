@@ -110,19 +110,6 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-        // TODO: Remove this piece of code
-        $img = $request->file('product_img');
-        if ($img != null || $img != '') {
-            $public_path = public_path();
-            $upload_path = '/product_img/';
-            $image_name = $request->input('name').str_random(4).'.jpg';
-            $img->move($public_path.$upload_path, $image_name);
-            $image_url = $upload_path.$image_name;
-        }
-        else {
-            throw new Exception("Error Processing Request", 1);
-        }
-
         try{
             Product::where('id', $id)
                 ->update([
@@ -132,7 +119,7 @@ class ProductController extends Controller
                     'status' => $data['status'],
                     'custom_attr' => serialize(json_decode($data['customAttribs'])),
                     'supplier_id' => $data['marketPlaceId'],
-                    'img_url' => url($image_url),   // TODO : Change image_url to file here.
+                    'img_url' =>  $data['img_url'],
                     'description' => 'undefined',
                     'quantity' => 0,
                     'category_id' => 8, // TODO: Change this to something else
