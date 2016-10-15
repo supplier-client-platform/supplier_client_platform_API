@@ -30,8 +30,8 @@ Route::group(['middleware' => 'web'], function() {
     Route::get('/home', 'HomeController@index');
 });*/
 
-
-// TODO : 'middleware' => 'auth:api'
+    // CHANGED : Auth:api was removed temporarily for faster development and testing.
+    // TODO : Enable 'middleware' => 'auth:api' again.
 
 Route::group(['prefix' => 'api/v1'], function() {
 
@@ -65,6 +65,11 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group(['prefix' => 'template'], function() {
         Route::get('all', 'TemplateController@index');
         Route::post('create/new', 'TemplateController@create');
+    });
+
+    Route::group(['prefix' => 'order'], function() {
+        Route::get('all', 'OrderController@index');
+        Route::post('update/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 });
 

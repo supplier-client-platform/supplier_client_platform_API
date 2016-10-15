@@ -27,11 +27,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Create a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $data = $request->all();
@@ -117,7 +112,8 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-        
+
+        try{
             Product::where('id', $id)
                 ->update([
                     'name' => $data['name'],
@@ -134,6 +130,8 @@ class ProductController extends Controller
 
             return response('Success', 200);    // XXX: Better option is to return the model itself.
 
-        
+        } catch(Exception $e) {
+            return response('Product not found', 404);
+        }
     }
 }
