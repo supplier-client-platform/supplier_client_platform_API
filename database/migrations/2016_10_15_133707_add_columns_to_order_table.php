@@ -15,6 +15,7 @@ class AddColumnsToOrderTable extends Migration
         Schema::table('order', function (Blueprint $table) {
             $table->unsignedInteger('supplier_id');
             $table->string('status')->default('Pending');
+            $table->string('message')->nullable();
 
             // Constraints
             $table->foreign('supplier_id')->references('id')->on('supplier');

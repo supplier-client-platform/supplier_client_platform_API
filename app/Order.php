@@ -26,7 +26,7 @@ class Order extends Model
             'customer.name',
             'customer.email',
             'customer.contact',
-            'order.shopping_list'
+            'order.shopping_list'   // No way to unserialize this without writing a custom paginator. Will convert this to json.
         )
             ->join('customer', 'order.customer_id', '=', 'customer.id')
             ->where('order.supplier_id', $data['marketPlaceId']);
@@ -50,6 +50,12 @@ class Order extends Model
         if (isset( $data['startDate']) && isset( $data['endDate'])) {
             $orderBuilder->whereBetween('order.created_at', [$data['startDate'], $data['endDate']]);
         }
+
+//        $dataJson = unserialize($orderBuilder->shopping_list);
+//        var_dump($dataJson);
+        dd($orderBuilder->get());
+//        http://psampaz.github.io/custom-data-pagination-with-laravel-5/
+//        https://laracasts.com/discuss/channels/laravel/manual-pagination-in-laravel-51
 
         return $orderBuilder->paginate(10);
     }

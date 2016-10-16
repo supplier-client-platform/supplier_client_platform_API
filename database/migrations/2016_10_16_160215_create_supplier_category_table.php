@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnsToOrderTable extends Migration
+class CreateSupplierCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,10 @@ class AddColumnsToOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->string('message')->nullable();
+        Schema::create('supplier_category', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -24,8 +26,6 @@ class AddColumnsToOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('order', function (Blueprint $table) {
-            //
-        });
+        Schema::drop('supplier_category');
     }
 }
