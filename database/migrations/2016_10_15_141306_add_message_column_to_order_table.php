@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnsToOrderTable extends Migration
+class AddMessageColumnToOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,7 @@ class AddColumnsToOrderTable extends Migration
     public function up()
     {
         Schema::table('order', function (Blueprint $table) {
-            $table->unsignedInteger('supplier_id');
-            $table->string('status')->default('Pending');
-
-            // Constraints
-            $table->foreign('supplier_id')->references('id')->on('supplier');
+            $table->string('message')->nullable();
         });
     }
 

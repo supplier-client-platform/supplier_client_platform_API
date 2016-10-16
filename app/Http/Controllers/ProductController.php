@@ -31,6 +31,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
+
         Product::create([
             'name' => $data['name'],
             'brand_id' => $data['brand_id'],
@@ -69,6 +70,7 @@ class ProductController extends Controller
         try{
             $collection = DB::table('product')
                 ->select(
+                'product.id',
                 'product.name',
                 'brand.brandname',
                 'product.img_url',
@@ -114,21 +116,21 @@ class ProductController extends Controller
             Product::where('id', $id)
                 ->update([
                     'name' => $data['name'],
-                    'brand_id' => $data['brand'],
+                    'brand_id' => $data['brand_id'],
                     'price' => $data['price'],
                     'status' => $data['status'],
-                    'custom_attr' => serialize(json_decode($data['customAttribs'])),
-                    'supplier_id' => $data['marketPlaceId'],
-                    'img_url' =>  $data['img_url'],
+                    'custom_attr' => serialize($data['custom_attr']),
+                    'supplier_id' => $data['supplier_id'],
+                    'img_url' => $data['img_url'],
                     'description' => 'undefined',
                     'quantity' => 0,
-                    'category_id' => 8, // TODO: Change this to something else
+                    'category_id' => $data['category_id'],  
                 ]);
 
             return response('Success', 200);    // XXX: Better option is to return the model itself.
 
         } catch(Exception $e) {
-            return response('Error in updating the product.', 400);
+            return response('Product not found', 404);
         }
     }
 }
