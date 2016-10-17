@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -40,7 +41,7 @@ class UserController extends Controller
         try{
             User::findOrFail($id)->paginate();
         }catch (Exception $e) {
-            return response('Not found.', 404);
+            return response(['data' => ['status' => 'fail', 'message' => 'User Not found.']], 404);
         }
     }
 
@@ -84,9 +85,9 @@ class UserController extends Controller
                 'contact' => $data['personalContact'],
                 'image' => $data['image']
             ]);
-            return User::findOrFail($id);
+            return User::findOrFail($id)->paginate();
         } catch (Exception $e) {
-            return response('Creation failed', 500);
+            return response(['data' => ['status' => 'fail', 'message' => 'Update failed.']], 400);
         }
     }
 
@@ -95,21 +96,24 @@ class UserController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function regenerateUserAuth($id) {
+    public function regenerateUserAuth(Request $request, $id) {
 
         try {
             $user = User::findOrFail($id);
-            // TODO: Better make api_token unique --> But not really needed I guess
-            // Reason: 64^60 characters are there. Repeat strings will take a long time to occur.
-            // i.e. only after 2.3485425827738332e+108 cycles
-            $user->api_token = str_random(60);
-            $user->save();
-            return [
-                'bearer token' => $user->api_token
-            ];
-        } catch (Exception $e) {
 
-            return response('Not found', 404);
+            if (Hash::check($user->password, $request->oldPassword)) {
+                $user->password = Hash::make($request->newPassword);
+                // No need for unique for api_token.
+                // Reason: 64^60 characters are there. Repeat strings will take a long time to occur.
+                // i.e. only after 2.3485425827738332e+108 cycles
+                $user->api_token = str_random(60);
+                $user->save();
+                return response(['data' => ['status' => 'success', 'message' => 'Update successful', 'bearer token' => $user->api_token]], 200);
+            } else {
+                return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Check parameters sent.']], 400);
+            }
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Not found.']], 404);
         }
     }
 
