@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Business_Categories;
 use App\Citylist;
 use App\Category;
 use Illuminate\Http\Request;
@@ -37,6 +38,15 @@ class MiscellaneousController extends Controller
     public function getCategoryList() {
         try{
             return Category::all();
+        } catch(Exception $e){
+            return response('Retireval failed.', 500);
+        }
+    }
+
+    // Business Categories
+    public function getBusinessCategoryList() {
+        try{
+            return Business_Categories::all();
         } catch(Exception $e){
             return response('Retireval failed.', 500);
         }

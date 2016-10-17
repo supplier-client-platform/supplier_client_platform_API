@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSupplierCategoryToSupplierTable extends Migration
+class AddAddressAsJsonToSupplierTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,7 @@ class AddSupplierCategoryToSupplierTable extends Migration
     public function up()
     {
         Schema::table('supplier', function (Blueprint $table) {
-            $table->unsignedInteger('supplier_category_id')->nullable();
-            $table->string('contact');
-            $table->string('email')->unique();
-            $table->string('base_city')->nullable();
-            $table->text('image');
-            $table->dropColumn('address');
-
-            // Constraints
-            $table->foreign('supplier_category_id')->references('id')->on('supplier_category');
+            $table->json('address')->nullable();    // requires MySQL V5.7
         });
     }
 

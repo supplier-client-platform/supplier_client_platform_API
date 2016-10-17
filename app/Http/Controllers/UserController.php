@@ -38,9 +38,7 @@ class UserController extends Controller
     public function getUserByID($id) {
 
         try{
-            return [
-                'data' => User::findOrFail($id)
-            ];
+            User::findOrFail($id)->paginate();
         }catch (Exception $e) {
             return response('Not found.', 404);
         }
@@ -80,9 +78,11 @@ class UserController extends Controller
 
         try {
              User::where('id', $id)->update([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => bcrypt($data['password'])
+                'name' => $data['fullname'],
+                'email' => $data['personalEmail'],
+                'NIC' => $data['nic'],
+                'contact' => $data['personalContact'],
+                'image' => $data['image']
             ]);
             return User::findOrFail($id);
         } catch (Exception $e) {

@@ -38,6 +38,7 @@ Route::group(['prefix' => 'api/v1'], function() {
     // Every table that doesnt expose inserts/updates to the client goes to MiscellaneousController
     Route::get('cities/all', 'MiscellaneousController@getCityList');
     Route::get('categories/all', 'MiscellaneousController@getCategoryList');
+    Route::get('business/categories/all', 'MiscellaneousController@getBusinessCategoryList');
 
     // TODO: Write a middleware for access controlling later
     // --Tested!
@@ -72,9 +73,16 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::post('update/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 
+    // TO be tested
     Route::group(['prefix' => 'business'], function() {
         Route::get('details/user_id/{id}', 'BusinessController@show');
         Route::post('update/business_id/{id}', 'BusinessController@update');
+    });
+
+    // To be tested
+    Route::group(['prefix' => 'profile'], function() {
+        Route::get('details/user_id/{id}', 'UserController@getUserByID');
+        Route::post('update/business_id/{id}', 'UserController@updateUser');
     });
 });
 
