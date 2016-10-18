@@ -54,13 +54,16 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group(['prefix' => 'product'], function() {
         Route::get('all', 'ProductController@index');
         Route::get('product_id/{id}', 'ProductController@show');
-        
         Route::post('create/new', 'ProductController@create');
-        Route::post('update/{id}', 'ProductController@update');
+        Route::post('update/product_id/{id}', 'ProductController@update');
     });
 
+    // TO be tested
     Route::group(['prefix' => 'brand'], function(){
         Route::get('all', 'BrandController@index');
+        Route::post('create/new', 'BrandController@create');
+        Route::post('update/brand_id/{id}', 'BrandController@update');
+        Route::post('delete/brand_id/{id}', 'BrandController@destroy');
     });
 
     Route::group(['prefix' => 'template'], function() {
@@ -70,7 +73,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     Route::group(['prefix' => 'order'], function() {
         Route::get('all', 'OrderController@index');
-        Route::post('update/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
+        Route::post('update/order_id/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 
     // TO be tested

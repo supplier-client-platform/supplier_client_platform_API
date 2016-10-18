@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,13 +24,14 @@ class BrandController extends Controller
         try{
             return DB::table('brand')
                 ->select(
-                'id',
-                'brandname'
-            )
-                ->where('supplier_id',$supplier)
-                ->get();
+                    'id',
+                    'brandname'
+                )
+                ->where('supplier_id', $supplier)
+                ->paginate();
+
         }catch (Exception $e) {
-            return response('Error in retrieval', 500);
+            return response(['data' => ['status' => 'fail', 'message' => 'Items Not found.']], 404);
         }
     }
 
@@ -38,9 +40,18 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try {
+            Brand::create([
+                'brandname' => $request->brandName,
+                'supplier_id' => $request->businessID
+            ]);
+
+            return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Creation failed. Check parameters sent.']], 400);
+        }
     }
 
     /**
@@ -85,7 +96,16 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            Brand::where('id', $id)
+                ->update([
+                    'brandname' => $request->brandName,
+                    'supplier_id' => $request->businessID
+                ]);
+            return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Check parameters sent.']], 400);
+        }
     }
 
     /**
@@ -96,6 +116,14 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Brand::where('id', $id)
+                ->update([
+                    'status' => 'Deprecated'
+                ]);
+            return response(['data' => ['status' => 'success', 'message' => 'Delete successful']], 200);
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Delete failed. Item Not found.']], 404);
+        }
     }
 }
