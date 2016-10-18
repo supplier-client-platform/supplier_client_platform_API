@@ -38,7 +38,7 @@ class Product extends Model
             if(isset($data['status'])){
                 $productBuilder->Where('product.status', $data['status']);
             } 
-            return $productBuilder->paginate(10);
+            return $productBuilder->paginate(11);
 
       
     }

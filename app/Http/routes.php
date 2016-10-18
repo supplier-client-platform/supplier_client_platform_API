@@ -51,18 +51,21 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
     });
 
+     // --Tested! --Nilesh Jayananandana
     Route::group(['prefix' => 'product'], function() {
         Route::get('all', 'ProductController@index');
         Route::get('product_id/{id}', 'ProductController@show');
-        
         Route::post('create/new', 'ProductController@create');
         Route::post('update/{id}', 'ProductController@update');
+        // TODO: Add a product Remove
     });
 
     Route::group(['prefix' => 'brand'], function(){
         Route::get('all', 'BrandController@index');
+         // TODO: Insert , Update, Delete
     });
 
+    // --Tested! --Nilesh Jayananandana
     Route::group(['prefix' => 'template'], function() {
         Route::get('all', 'TemplateController@index');
         Route::post('create/new', 'TemplateController@create');
