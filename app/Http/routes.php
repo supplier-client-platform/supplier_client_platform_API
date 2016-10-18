@@ -11,7 +11,7 @@
 |
 */
 
- 
+
 /*Route::get('/', function () {
     return view('welcome');
 });
@@ -30,14 +30,19 @@ Route::group(['middleware' => 'web'], function() {
     Route::get('/home', 'HomeController@index');
 });*/
 
-    // CHANGED : Auth:api was removed temporarily for faster development and testing.
-    // TODO : Enable 'middleware' => 'auth:api' again.
+// CHANGED : Auth:api was removed temporarily for faster development and testing.
+// TODO : Enable 'middleware' => 'auth:api' again.
 
 Route::group(['prefix' => 'api/v1'], function() {
 
     // Every table that doesnt expose inserts/updates to the client goes to MiscellaneousController
+    // TO be tested
     Route::get('cities/all', 'MiscellaneousController@getCityList');
+    
+    // --Tested! --Nilesh Jayananandana
     Route::get('categories/all', 'MiscellaneousController@getCategoryList');
+
+    // TO be tested
     Route::get('business/categories/all', 'MiscellaneousController@getBusinessCategoryList');
 
     // TODO: Write a middleware for access controlling later
@@ -51,7 +56,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
     });
 
-     // --Tested! --Nilesh Jayananandana
+    // --Tested! --Nilesh Jayananandana
     Route::group(['prefix' => 'product'], function() {
         Route::get('all', 'ProductController@index');
         Route::get('product_id/{id}', 'ProductController@show');
@@ -62,7 +67,10 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     // TO be tested
     Route::group(['prefix' => 'brand'], function(){
+        // --Tested! --Nilesh Jayananandana
         Route::get('all', 'BrandController@index');
+
+        // TO be tested
         Route::post('create/new', 'BrandController@create');
         Route::post('update/brand_id/{id}', 'BrandController@update');
         Route::post('delete/brand_id/{id}', 'BrandController@destroy');
