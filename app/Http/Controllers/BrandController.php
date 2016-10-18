@@ -20,15 +20,15 @@ class BrandController extends Controller
     {
 
         $supplier = $request->input('supplier_id');
-        
+
         try{
             return DB::table('brand')
                 ->select(
-                    'id',
-                    'brandname'
-                )
+                'id',
+                'brandname'
+            )
                 ->where('supplier_id', $supplier)
-                ->paginate();
+                ->get();
 
         }catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Items Not found.']], 404);
