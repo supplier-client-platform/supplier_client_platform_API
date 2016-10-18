@@ -60,9 +60,13 @@ Route::group(['prefix' => 'api/v1'], function() {
         // TODO: Add a product Remove
     });
 
+    // TO be tested
     Route::group(['prefix' => 'brand'], function(){
         Route::get('all', 'BrandController@index');
-         // TODO: Insert , Update, Delete
+        Route::post('create/new', 'BrandController@create');
+        Route::post('update/brand_id/{id}', 'BrandController@update');
+        Route::post('delete/brand_id/{id}', 'BrandController@destroy');
+
     });
 
     // --Tested! --Nilesh Jayananandana
@@ -73,7 +77,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     Route::group(['prefix' => 'order'], function() {
         Route::get('all', 'OrderController@index');
-        Route::post('update/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
+        Route::post('update/order_id/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 
     // TO be tested
@@ -85,7 +89,8 @@ Route::group(['prefix' => 'api/v1'], function() {
     // To be tested
     Route::group(['prefix' => 'profile'], function() {
         Route::get('details/user_id/{id}', 'UserController@getUserByID');
-        Route::post('update/business_id/{id}', 'UserController@updateUser');
+        Route::post('details/user_id/{id}', 'UserController@updateUser');
+        Route::post('details/auth_regen/user_id/{id}', 'UserController@updateUser');
     });
 });
 
