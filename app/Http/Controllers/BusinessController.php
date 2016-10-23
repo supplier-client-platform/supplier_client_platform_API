@@ -18,7 +18,26 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $result = DB::table('supplier')
+                ->select(
+                    'supplier.id',
+                    'supplier.name',
+                    'supplier_category.name',
+                    'supplier.contact',
+                    'supplier.email',
+                    'supplier.address',
+                    'supplier.base_city',
+                    'supplier.image',
+                    'supplier.website'
+                )
+                ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
+                ->paginate();
+
+            return $result;
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Query failed. Item not found']], 404);
+        }
     }
 
     /**

@@ -35,7 +35,7 @@ Route::group(['middleware' => 'web'], function() {
 
 Route::group(['prefix' => 'api/v1'], function() {
 
-    // Every table that doesnt expose inserts/updates to the client goes to MiscellaneousController
+    // Every table that doesn't expose inserts/ updates to the client goes to MiscellaneousController.
     // TO be tested
     Route::get('cities/all', 'MiscellaneousController@getCityList');
     
@@ -90,6 +90,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     // TO be tested
     Route::group(['prefix' => 'business'], function() {
+        Route::get('all', 'BusinessController@index');
         Route::get('details/user_id/{id}', 'BusinessController@show');
         Route::post('update/business_id/{id}', 'BusinessController@update');
     });
