@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Supplier;
 use App\User;
 use Illuminate\Http\Request;
 use Exception;
@@ -56,15 +57,31 @@ class UserController extends Controller
         $data = $request->all();
 
         try {
-            return User::create([
+            $new_user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'is_admin' => 0,
-                'api_token' => str_random(60)   // TODO: Change this to a unique str_random
+                'api_token' => str_random(60),   // TODO: Change this to a unique str_random --CHANGED: NO NEED TO DO THIS.
+                'payment_plan' => $data['payment_plan'],
+                'personal_contact' => $data['personal_contact'],
+                'terms_agreed' => $data['terms_agreed']
             ]);
+
+             Supplier::create([
+                'user_id' => $new_user->id,
+                'name' => $data['businessName'],
+                'email' => $data['businessEmail'],
+                'supplier_category_id' => $data['supplierCategory'],
+                'contact' => $data['businessContact'],
+                'address' => json_encode($data['business_address']),
+                'base_city' => $data['baseCity'],
+                'image' => $data['imageUrl'],
+                'website' => $data['website']
+            ]);
+            return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
-            return response('Creation failed', 500);
+            return response(['data' => ['status' => 'fail', 'message' => 'Creation failed.']], 500);
         }
     }
 

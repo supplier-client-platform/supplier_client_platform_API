@@ -53,7 +53,7 @@ class Order extends Model
 
 //        $dataJson = unserialize($orderBuilder->shopping_list);
 //        var_dump($dataJson);
-        dd($orderBuilder->get());
+        //dd($orderBuilder->get());
 //        http://psampaz.github.io/custom-data-pagination-with-laravel-5/
 //        https://laracasts.com/discuss/channels/laravel/manual-pagination-in-laravel-51
 
