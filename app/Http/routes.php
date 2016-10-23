@@ -50,7 +50,7 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group([], function() {
         Route::get('users/get/all', 'UserController@getAllUsers');
         Route::get('users/get/user_id/{id}', 'UserController@getUserByID');
-        Route::post('users/create/new', 'UserController@createNewUser');
+        Route::post('users/create/new', 'UserController@createNewUser');    // Modified and tested
         Route::put('users/update/user_id/{id}', 'UserController@updateUser');
         Route::patch('users/regen_auth/user_id/{id}', 'UserController@regenerateUserAuth');
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
