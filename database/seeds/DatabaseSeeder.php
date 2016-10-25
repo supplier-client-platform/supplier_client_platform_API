@@ -11,8 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Citylist::class, 20)->create();
-        factory(App\User::class, 5)->create();
-        factory(App\Category::class, 5)->create();
+        $this->call(SupplierCategoryTableSeeder::class);
+        $this->call(CityListTableSeeder::class);
     }
 }

@@ -58,26 +58,26 @@ class UserController extends Controller
 
         try {
             $new_user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'name' => $data['fullname'],
+                'email' => $data['personal_email'],
                 'password' => bcrypt($data['password']),
                 'is_admin' => 0,
                 'api_token' => str_random(60),   // TODO: Change this to a unique str_random --CHANGED: NO NEED TO DO THIS.
                 'payment_plan' => $data['payment_plan'],
                 'personal_contact' => $data['personal_contact'],
-                'terms_agreed' => $data['terms_agreed']
+                'terms_agreed' => $data['terms_agree']
             ]);
 
              Supplier::create([
                 'user_id' => $new_user->id,
-                'name' => $data['businessName'],
-                'email' => $data['businessEmail'],
-                'supplier_category_id' => $data['supplierCategory'],
-                'contact' => $data['businessContact'],
+                'name' => $data['company_name'],
+                'email' => $data['company_email'],
+                'supplier_category_id' => $data['supplier_category'],
+                'contact' => $data['company_contact'],
                 'address' => json_encode($data['business_address']),
-                'base_city' => $data['baseCity'],
-                'image' => $data['imageUrl'],
-                'website' => $data['website']
+                'base_city' => $data['base_city'],
+                //'image' => $data['imageUrl'], Image url is updated after account creation.
+                'website' => $data['company_website']
             ]);
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
