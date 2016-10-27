@@ -69,7 +69,6 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group(['prefix' => 'brand'], function(){
         // --Tested! --Nilesh Jayananandana
         Route::get('all', 'BrandController@index');
-
         // TO be tested
         Route::post('create/new', 'BrandController@create');
         Route::post('update/brand_id/{id}', 'BrandController@update');

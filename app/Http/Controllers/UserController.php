@@ -68,7 +68,7 @@ class UserController extends Controller
                 'terms_agreed' => $data['terms_agree']
             ]);
 
-             Supplier::create([
+            $supplier = Supplier::create([
                 'user_id' => $new_user->id,
                 'name' => $data['company_name'],
                 'email' => $data['company_email'],
@@ -79,6 +79,12 @@ class UserController extends Controller
                 //'image' => $data['imageUrl'], Image url is updated after account creation.
                 'website' => $data['company_website']
             ]);
+
+            Brand::create([
+                'brandname' => 'N/A',
+                'supplier_id' => $supplier->id;
+            ]);
+
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Creation failed.']], 500);
@@ -95,7 +101,7 @@ class UserController extends Controller
         $data = $request->all();
 
         try {
-             User::where('id', $id)->update([
+            User::where('id', $id)->update([
                 'name' => $data['fullname'],
                 'email' => $data['personalEmail'],
                 'NIC' => $data['nic'],
