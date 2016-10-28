@@ -90,7 +90,7 @@ class BusinessController extends Controller
 
 
 
-            return response(['data' =>  $result], 404);
+            return response()->json(['data' =>  $result], 404);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Query failed. Item not found']], 404);
         }
