@@ -40,7 +40,10 @@ class UserController extends Controller
     public function getUserByID($id) {
 
         try{
-            User::findOrFail($id)->paginate();
+            $user = User::findOrFail($id);
+           
+              return response(['data' => $user], 200);
+            
         }catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'User Not found.']], 404);
         }
@@ -82,7 +85,7 @@ class UserController extends Controller
 
             Brand::create([
                 'brandname' => 'N/A',
-                'supplier_id' => $supplier->id;
+                'supplier_id' => $supplier->id,
             ]);
 
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
