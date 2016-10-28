@@ -83,7 +83,7 @@ class BusinessController extends Controller
                 )
                 ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
                 ->where('supplier.user_id', $id)
-                ->paginate();
+                ->first();
 
             return $result;
         } catch (Exception $e) {
