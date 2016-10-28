@@ -89,7 +89,8 @@ class BusinessController extends Controller
                 ->get();
 
 
-            return $result;
+
+            return response(['data' =>  $result], 404);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Query failed. Item not found']], 404);
         }
