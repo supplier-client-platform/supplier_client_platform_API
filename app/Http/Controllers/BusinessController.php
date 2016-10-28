@@ -21,16 +21,16 @@ class BusinessController extends Controller
         try {
             $result = DB::table('supplier')
                 ->select(
-                    'supplier.id',
-                    'supplier.name',
-                    'supplier_category.name',
-                    'supplier.contact',
-                    'supplier.email',
-                    'supplier.address',
-                    'supplier.base_city',
-                    'supplier.image',
-                    'supplier.website'
-                )
+                'supplier.id',
+                'supplier.name',
+                'supplier_category.name',
+                'supplier.contact',
+                'supplier.email',
+                'supplier.address',
+                'supplier.base_city',
+                'supplier.image',
+                'supplier.website'
+            )
                 ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
                 ->paginate();
 
@@ -70,20 +70,24 @@ class BusinessController extends Controller
     public function show($id)
     {
         try {
+
             $result = DB::table('supplier')
                 ->select(
-                    'supplier.id',
-                    'supplier.name',
-                    'supplier_category.name',
-                    'supplier.contact',
-                    'supplier.email',
-                    'supplier.address',
-                    'supplier.base_city',
-                    'supplier.image'
-                )
-                ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
-                ->where('supplier.user_id', $id)
-                ->first();
+                'supplier.id',
+                'supplier.name',
+                'supplier_category.name as cat_name',
+                'supplier.contact',
+                'supplier.supplier_category_id',
+                'supplier.website',
+                'supplier.email',
+                'supplier.address',
+                'supplier.base_city',
+                'supplier.image'
+            )
+                ->leftJoin('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
+                ->where('supplier.id', $id)
+                ->get();
+
 
             return $result;
         } catch (Exception $e) {
