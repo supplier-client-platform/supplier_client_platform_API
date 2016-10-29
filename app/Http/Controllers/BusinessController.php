@@ -119,13 +119,13 @@ class BusinessController extends Controller
         try {
             Supplier::where('id', $id)
                 ->update([
-                    'name' => $request->businessName,
-                    'supplier_category_id' => $request->supplierCategory,
-                    'email' => $request->businessEmail,
-                    'contact' => $request->businessContact,
-                    'address' => $request->business_address,
-                    'base_city' => $request->baseCity,
-                    'image' => $request->imageUrl
+                    'name' => $request->name,
+                    'supplier_category_id' => $request->supplier_category_id,
+                    'email' => $request->email,
+                    'contact' => $request->contact,
+                    'address' => $request->address,
+                    'base_city' => $request->base_city,
+                    'image' => $request->image
                 ]);
 
             return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
