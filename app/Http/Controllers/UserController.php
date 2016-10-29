@@ -41,9 +41,9 @@ class UserController extends Controller
 
         try{
             $user = User::findOrFail($id);
-           
-              return response(['data' => $user], 200);
-            
+
+            return response(['data' => $user], 200);
+
         }catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'User Not found.']], 404);
         }
@@ -105,13 +105,13 @@ class UserController extends Controller
 
         try {
             User::where('id', $id)->update([
-                'name' => $data['fullname'],
-                'email' => $data['personalEmail'],
-                'NIC' => $data['nic'],
-                'contact' => $data['personalContact'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'NIC' => $data['NIC'],
+                'contact' => $data['contact'],
                 'image' => $data['image']
             ]);
-            return User::findOrFail($id)->paginate();
+            return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Update failed.']], 400);
         }

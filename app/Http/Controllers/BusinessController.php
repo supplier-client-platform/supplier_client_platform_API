@@ -116,7 +116,7 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+    
             Supplier::where('id', $id)
                 ->update([
                     'name' => $request->name,
@@ -129,9 +129,7 @@ class BusinessController extends Controller
                 ]);
 
             return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
-        } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Check parameters sent.']], 400);
-        }
+       
     }
 
     /**
