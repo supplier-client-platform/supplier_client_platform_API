@@ -40,7 +40,10 @@ class UserController extends Controller
     public function getUserByID($id) {
 
         try{
-            User::findOrFail($id)->paginate();
+            $user = User::findOrFail($id);
+
+            return response(['data' => $user], 200);
+
         }catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'User Not found.']], 404);
         }
@@ -58,27 +61,33 @@ class UserController extends Controller
 
         try {
             $new_user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'name' => $data['fullname'],
+                'email' => $data['personal_email'],
                 'password' => bcrypt($data['password']),
                 'is_admin' => 0,
                 'api_token' => str_random(60),   // TODO: Change this to a unique str_random --CHANGED: NO NEED TO DO THIS.
                 'payment_plan' => $data['payment_plan'],
                 'personal_contact' => $data['personal_contact'],
-                'terms_agreed' => $data['terms_agreed']
+                'terms_agreed' => $data['terms_agree']
             ]);
 
-             Supplier::create([
+            $supplier = Supplier::create([
                 'user_id' => $new_user->id,
-                'name' => $data['businessName'],
-                'email' => $data['businessEmail'],
-                'supplier_category_id' => $data['supplierCategory'],
-                'contact' => $data['businessContact'],
+                'name' => $data['company_name'],
+                'email' => $data['company_email'],
+                'supplier_category_id' => $data['supplier_category'],
+                'contact' => $data['company_contact'],
                 'address' => json_encode($data['business_address']),
-                'base_city' => $data['baseCity'],
-                'image' => $data['imageUrl'],
-                'website' => $data['website']
+                'base_city' => $data['base_city'],
+                //'image' => $data['imageUrl'], Image url is updated after account creation.
+                'website' => $data['company_website']
             ]);
+
+            Brand::create([
+                'brandname' => 'N/A',
+                'supplier_id' => $supplier->id,
+            ]);
+
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Creation failed.']], 500);
@@ -95,14 +104,14 @@ class UserController extends Controller
         $data = $request->all();
 
         try {
-             User::where('id', $id)->update([
-                'name' => $data['fullname'],
-                'email' => $data['personalEmail'],
-                'NIC' => $data['nic'],
-                'contact' => $data['personalContact'],
+            User::where('id', $id)->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'NIC' => $data['NIC'],
+                'contact' => $data['contact'],
                 'image' => $data['image']
             ]);
-            return User::findOrFail($id)->paginate();
+            return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Update failed.']], 400);
         }

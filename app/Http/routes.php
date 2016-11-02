@@ -69,7 +69,6 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group(['prefix' => 'brand'], function(){
         // --Tested! --Nilesh Jayananandana
         Route::get('all', 'BrandController@index');
-
         // TO be tested
         Route::post('create/new', 'BrandController@create');
         Route::post('update/brand_id/{id}', 'BrandController@update');
@@ -98,7 +97,7 @@ Route::group(['prefix' => 'api/v1'], function() {
     // To be tested
     Route::group(['prefix' => 'profile'], function() {
         Route::get('details/user_id/{id}', 'UserController@getUserByID');
-        Route::post('details/user_id/{id}', 'UserController@updateUser');
+        Route::post('update/user_id/{id}', 'UserController@updateUser');
         Route::post('details/auth_regen/user_id/{id}', 'UserController@updateUser');
     });
 });

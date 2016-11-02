@@ -21,16 +21,16 @@ class BusinessController extends Controller
         try {
             $result = DB::table('supplier')
                 ->select(
-                    'supplier.id',
-                    'supplier.name',
-                    'supplier_category.name',
-                    'supplier.contact',
-                    'supplier.email',
-                    'supplier.address',
-                    'supplier.base_city',
-                    'supplier.image',
-                    'supplier.website'
-                )
+                'supplier.id',
+                'supplier.name',
+                'supplier_category.name',
+                'supplier.contact',
+                'supplier.email',
+                'supplier.address',
+                'supplier.base_city',
+                'supplier.image',
+                'supplier.website'
+            )
                 ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
                 ->paginate();
 
@@ -70,22 +70,27 @@ class BusinessController extends Controller
     public function show($id)
     {
         try {
+
             $result = DB::table('supplier')
                 ->select(
-                    'supplier.id',
-                    'supplier.name',
-                    'supplier_category.name',
-                    'supplier.contact',
-                    'supplier.email',
-                    'supplier.address',
-                    'supplier.base_city',
-                    'supplier.image'
-                )
-                ->join('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
-                ->where('supplier.user_id', $id)
-                ->paginate();
+                'supplier.id',
+                'supplier.name',
+                'supplier_category.name as cat_name',
+                'supplier.contact',
+                'supplier.supplier_category_id',
+                'supplier.website',
+                'supplier.email',
+                'supplier.address',
+                'supplier.base_city',
+                'supplier.image'
+            )
+                ->leftJoin('supplier_category', 'supplier.supplier_category_id', '=', 'supplier_category.id')
+                ->where('supplier.id', $id)
+                ->get();
 
-            return $result;
+
+
+            return response()->json(['data' =>  $result], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Query failed. Item not found']], 404);
         }
@@ -111,22 +116,20 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+    
             Supplier::where('id', $id)
                 ->update([
-                    'name' => $request->businessName,
-                    'supplier_category_id' => $request->supplierCategory,
-                    'email' => $request->businessEmail,
-                    'contact' => $request->businessContact,
-                    'address' => $request->business_address,
-                    'base_city' => $request->baseCity,
-                    'image' => $request->imageUrl
+                    'name' => $request->name,
+                    'supplier_category_id' => $request->supplier_category_id,
+                    'email' => $request->email,
+                    'contact' => $request->contact,
+                    'address' => $request->address,
+                    'base_city' => $request->base_city,
+                    'image' => $request->image
                 ]);
 
             return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
-        } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Check parameters sent.']], 400);
-        }
+       
     }
 
     /**

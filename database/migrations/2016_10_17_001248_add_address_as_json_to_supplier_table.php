@@ -13,7 +13,7 @@ class AddAddressAsJsonToSupplierTable extends Migration
     public function up()
     {
         Schema::table('supplier', function (Blueprint $table) {
-            $table->json('address')->nullable();    // requires MySQL V5.7
+            $table->binary('address')->nullable();    // requires MySQL V5.7
         });
     }
 
