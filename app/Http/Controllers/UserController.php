@@ -122,24 +122,57 @@ class UserController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function regenerateUserAuth(Request $request, $id) {
+    public function regenerateUserAuth(Request $request) {
 
         try {
-            $user = User::findOrFail($id);
+            $user = User::where('email', $request->email)->firstOrFail();
 
-            if (Hash::check($user->password, $request->oldPassword)) {
-                $user->password = Hash::make($request->newPassword);
+            if (Hash::check($request->password, $user->password)) {
+                // $user->password = Hash::make($request->newPassword);
                 // No need for unique for api_token.
                 // Reason: 64^60 characters are there. Repeat strings will take a long time to occur.
                 // i.e. only after 2.3485425827738332e+108 cycles
                 $user->api_token = str_random(60);
                 $user->save();
-                return response(['data' => ['status' => 'success', 'message' => 'Update successful', 'bearer token' => $user->api_token]], 200);
+                return response(['data' => ['status' => 'success', 'message' => 'Auth successful', 'bearer token' => $user->api_token]], 200);
             } else {
-                return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Check parameters sent.']], 400);
+                return response(['data' => ['status' => 'fail', 'message' => 'Auth failed. Check parameters sent.']], 400);
             }
         } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Update failed. Not found.']], 404);
+            return response(['data' => ['status' => 'fail', 'message' => 'Auth failed. Not found.']], 404);
+        }
+    }
+
+    /**
+     * Changes the password.
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function changePassword(Request $request) {
+
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
+
+            if (Hash::check($request->password, $user->password)) {
+                 $user->password = Hash::make($request->newPassword);
+                $user->save();
+                return response(['data' => ['status' => 'success', 'message' => 'Password reset successful']], 200);
+            } else {
+                return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Check parameters sent.']], 400);
+            }
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Not found.']], 404);
+        }
+    }
+
+    public function resetPassword(Request $request) {
+
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
+            // TODO : Send a mail to this email with a randomly generated password
+            return response(['data' => ['status' => 'success', 'message' => 'Password reset successful']], 200);
+        } catch (Exception $e) {
+            return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Not found.']], 404);
         }
     }
 
