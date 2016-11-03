@@ -25,8 +25,7 @@ class Order extends Model
             'order.customer_id',
             'customer.name',
             'customer.email',
-            'customer.contact',
-            'order.shopping_list'
+            'customer.contact'
         )
             ->join('customer', 'order.customer_id', '=', 'customer.id')
             ->where('order.supplier_id', $data['marketPlaceId']);

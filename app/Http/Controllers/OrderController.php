@@ -72,10 +72,13 @@ class OrderController extends Controller
                 ->select(
                 'order_product.product_id',
                 'product.name',
+                'brand.brandname',
+                'product.price',
                 'order_product.product_quantity',
                 'order_product.total_price'
             )
                 ->join('product', 'order_product.product_id', '=', 'product.id')
+                ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('order_product.order_id', $id)
                 ->paginate();
 
