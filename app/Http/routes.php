@@ -50,9 +50,11 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::group([], function() {
         Route::get('users/get/all', 'UserController@getAllUsers');
         Route::get('users/get/user_id/{id}', 'UserController@getUserByID');
-        Route::post('users/create/new', 'UserController@createNewUser');
+        Route::post('users/create/new', 'UserController@createNewUser');    // Modified and tested
         Route::put('users/update/user_id/{id}', 'UserController@updateUser');
-        Route::patch('users/regen_auth/user_id/{id}', 'UserController@regenerateUserAuth');
+        Route::patch('users/regen_auth', 'UserController@regenerateUserAuth');  // DO NOT USE AUTH MIDDLEWARE
+        Route::patch('users/password/change', 'UserController@changePassword'); // USE AUTH MIDDLEWARE
+        // Route::patch('users/password/reset', 'UserController@resetPassword'); // DO NOT USE AUTH MIDDLEWARE
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
     });
 
@@ -84,6 +86,8 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     Route::group(['prefix' => 'order'], function() {
         Route::get('all', 'OrderController@index');
+        Route::get('products/order_id/{id}', 'OrderController@getOrderProducts');
+        Route::post('create/new', 'OrderController@create');
         Route::post('update/order_id/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 
