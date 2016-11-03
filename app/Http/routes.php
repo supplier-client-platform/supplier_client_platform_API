@@ -38,7 +38,7 @@ Route::group(['prefix' => 'api/v1'], function() {
     // Every table that doesn't expose inserts/ updates to the client goes to MiscellaneousController.
     // TO be tested
     Route::get('cities/all', 'MiscellaneousController@getCityList');
-    
+
     // --Tested! --Nilesh Jayananandana
     Route::get('categories/all', 'MiscellaneousController@getCategoryList');
 
@@ -99,6 +99,12 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('details/user_id/{id}', 'UserController@getUserByID');
         Route::post('update/user_id/{id}', 'UserController@updateUser');
         Route::post('details/auth_regen/user_id/{id}', 'UserController@updateUser');
+    });
+
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::get('order_stats/user_id/{id}', 'DashboardController@orders');
+//        Route::post('update/user_id/{id}', 'UserController@updateUser');
+//        Route::post('details/auth_regen/user_id/{id}', 'UserController@updateUser');
     });
 });
 
