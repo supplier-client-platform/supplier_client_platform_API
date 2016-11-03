@@ -26,7 +26,7 @@ class Order extends Model
             'customer.name',
             'customer.email',
             'customer.contact',
-            'order.shopping_list'   // No way to unserialize this without writing a custom paginator. Will convert this to json.
+            'order.shopping_list'
         )
             ->join('customer', 'order.customer_id', '=', 'customer.id')
             ->where('order.supplier_id', $data['marketPlaceId']);

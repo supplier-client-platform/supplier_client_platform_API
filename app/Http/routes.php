@@ -86,6 +86,8 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     Route::group(['prefix' => 'order'], function() {
         Route::get('all', 'OrderController@index');
+        Route::get('products/order_id/{id}', 'OrderController@getOrderProducts');
+        Route::post('create/new', 'OrderController@create');
         Route::post('update/order_id/{id}', 'OrderController@update'); // Why POST? Patch is the proper verb.
     });
 
