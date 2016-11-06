@@ -52,7 +52,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('users/get/user_id/{id}', 'UserController@getUserByID');
         Route::post('users/create/new', 'UserController@createNewUser');    // Modified and tested
         Route::put('users/update/user_id/{id}', 'UserController@updateUser');
-        Route::patch('users/regen_auth', 'UserController@regenerateUserAuth');  // DO NOT USE AUTH MIDDLEWARE
+        Route::post('users/regen_auth', 'UserController@regenerateUserAuth');  // DO NOT USE AUTH MIDDLEWARE
         Route::patch('users/password/change', 'UserController@changePassword'); // USE AUTH MIDDLEWARE
         // Route::patch('users/password/reset', 'UserController@resetPassword'); // DO NOT USE AUTH MIDDLEWARE
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');

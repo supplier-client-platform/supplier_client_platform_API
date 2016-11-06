@@ -126,7 +126,7 @@ class UserController extends Controller
 
         try {
             $user = User::where('email', $request->email)->firstOrFail();
-
+           
             if (Hash::check($request->password, $user->password)) {
                 // $user->password = Hash::make($request->newPassword);
                 // No need for unique for api_token.
@@ -134,7 +134,7 @@ class UserController extends Controller
                 // i.e. only after 2.3485425827738332e+108 cycles
                 $user->api_token = str_random(60);
                 $user->save();
-                return response(['data' => ['status' => 'success', 'message' => 'Auth successful', 'bearer token' => $user->api_token]], 200);
+                return response(['data' => ['status' => 'success', 'message' => 'Auth successful', 'bearer token' => $user->api_token, 'id'=> $user->id]], 200);
             } else {
                 return response(['data' => ['status' => 'fail', 'message' => 'Auth failed. Check parameters sent.']], 400);
             }

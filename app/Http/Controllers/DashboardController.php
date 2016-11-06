@@ -13,6 +13,19 @@ class DashboardController extends Controller
     //
     
     public function orders(){
+        
+        
+        
+        $orders = ViewDashboardOrder::where();
         return ViewDashboardOrder::all();
+    }
+    
+    
+    private function getMonths(){
+        
+     $month = date('m');
+     
+    
+        
     }
 }
