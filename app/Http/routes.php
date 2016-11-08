@@ -106,9 +106,9 @@ Route::group(['prefix' => 'api/v1'], function() {
     });
 
     Route::group(['prefix' => 'dashboard'], function() {
-        Route::get('order_stats/user_id/{id}', 'DashboardController@orders');
-        Route::get('sales_stats/user_id/{id}', 'DashboardController@sales');
-        Route::get('widget_stats/user_id/{id}', 'DashboardController@statsWidget');
+        Route::get('order_stats/supplier/{id}', 'DashboardController@orders');
+        Route::get('sales_stats/supplier/{id}', 'DashboardController@sales');
+        Route::get('widget_stats/supplier/{id}', 'DashboardController@statsWidget');
     });
 });
 
