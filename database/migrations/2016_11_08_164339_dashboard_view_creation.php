@@ -13,7 +13,7 @@ class DashboardViewCreation extends Migration
     public function up()
     {
         //
-        DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
+       /* DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
         DB::statement(
             "CREATE VIEW view_dashboard_orders
             AS
@@ -26,9 +26,10 @@ class DashboardViewCreation extends Migration
             coalesce(`b`.`discount`,0) AS `discount`,
             monthname(str_to_date(`t`.`month`,'%m')) AS `month_name`,
             `t`.`month` AS `month` 
-                from  `view_dashboard_months` `t` 
-                    left join `view_dashboard_order_list` `b` on(`t`.`month` = `b`.`month` and `t`.`status` = `b`.`status`);"
+                from  reactive_dev_scp_platform.`view_dashboard_months` `t` 
+                    left join reactive_dev_scp_platform.`view_dashboard_order_list` `b` on(`t`.`month` = `b`.`month` and `t`.`status` = `b`.`status`);"
         );
+        */
         
     }
 
