@@ -58,7 +58,7 @@ class DashboardOrdersView extends Migration
         select 
                     `f`.`month` AS `month`,
                     `s`.`status` AS `status`
-                        from view_support_month`f` 
+                        from view_support_months `f` 
                     join view_support_status `s`;"
         );
 
