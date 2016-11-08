@@ -13,13 +13,14 @@ class DashboardOrdersView extends Migration
     public function up()
     {
         //
+        Schema::drop('view_support_months');
         Schema::create('view_support_months', function (Blueprint $table) {
             $table->integer('month');
             $table->primary('month');
         });
 
         Schema::create('view_support_status', function (Blueprint $table) {
-            $table->integer('status');
+            $table->string('status');
             $table->primary('status');
         });
 
