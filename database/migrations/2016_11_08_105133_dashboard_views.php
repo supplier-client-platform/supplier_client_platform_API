@@ -75,7 +75,7 @@ class DashboardViews extends Migration
             count(0) AS `orders`,`a`.`supplier_id` AS `supplier_id`,
             `a`.`status` AS `status`,sum(`a`.`gross_total`) AS `gross_total`,
             sum(`a`.`net_total`) AS `net_total`,sum(`a`.`discount`) AS `discount` 
-            from `scp`.`order` `a`
+            from `order` `a`
             where (`a`.`created_at` > (now() - interval 6 month))
             group by date_format(`a`.`created_at`,'%Y-%m-01'),`a`.`supplier_id`,`a`.`status`;"
         );
