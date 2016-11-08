@@ -107,6 +107,7 @@ class DashboardController extends Controller
         //profit today
         $profit = Order::where('supplier_id',$supplierId)
             ->where('updated_at','LIKE',date('Y-m-d').'%')
+            ->whereIn('status',['Completed','Accepted'])
             ->sum('gross_total');
 
 
