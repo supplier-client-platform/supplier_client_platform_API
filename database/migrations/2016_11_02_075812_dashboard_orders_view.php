@@ -21,6 +21,7 @@ class DashboardOrdersView extends Migration
 
         Schema::drop('view_support_status');
         Schema::create('view_support_status', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('status');
         });
 
@@ -44,10 +45,10 @@ class DashboardOrdersView extends Migration
         DB::statement(
             "INSERT INTO view_support_months
             SELECT s.`status`
-            FROM (select   'Completed' AS `status` 
-                            union select 'Pending' AS `status`
-                            union select 'Accepted' AS `status` 
-                            union select 'Rejected' AS `status`) `s`;"
+            FROM (select  1 as `id` , 'Completed' AS `status` 
+                            union select 2 as `id`,'Pending' AS `status`
+                            union select 3 as `id`,'Accepted' AS `status` 
+                            union select 4 as `id`,'Rejected' AS `status`) `s`;"
         );
 
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
