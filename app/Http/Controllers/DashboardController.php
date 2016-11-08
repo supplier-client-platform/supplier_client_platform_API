@@ -16,13 +16,11 @@ class DashboardController extends Controller
 {
     //
 
-    public function orders(){
+    public function orders($id){
 
         $months = $this->getMonths(6);
 
-        $supplierId = 1;
-
-        return ViewDashboardOrder::all();
+        $supplierId = $id;
         try{
             $completed =  ViewDashboardOrder::select(DB::raw('sum(orders) as orders,month_name,month'))
                 ->whereIn('status',['Completed','Accepted'])
@@ -50,11 +48,11 @@ class DashboardController extends Controller
 
     }
 
-    public function sales(){
+    public function sales($id){
 
         $months = $this->getMonths(6);
 
-        $supplierId = 1;
+        $supplierId = $id;
 
 
 
@@ -77,9 +75,9 @@ class DashboardController extends Controller
     }
 
 
-    public function statsWidget(){
+    public function statsWidget($id){
 
-        $supplierId = 1;
+        $supplierId = $id;
 
         //orders this year
         $months = $this->getMonths(12);
