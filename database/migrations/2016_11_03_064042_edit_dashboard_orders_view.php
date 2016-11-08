@@ -12,7 +12,8 @@ class EditDashboardOrdersView extends Migration
      */
     public function up()
     {
-        //
+        ///*
+        /*
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
         DB::statement(
             "CREATE VIEW view_dashboard_months
@@ -63,6 +64,7 @@ class EditDashboardOrdersView extends Migration
                     where (`a`.`created_at` > (now() - interval 6 month))
                     group by date_format(`a`.`created_at`,'%Y-%m-01'),`a`.`supplier_id`,`a`.`status`) `b` on(((`t`.`month` = `b`.`month`) and (`t`.`status` = `b`.`status`)));"
         );
+        */
     }
 
     /**
@@ -72,9 +74,10 @@ class EditDashboardOrdersView extends Migration
      */
     public function down()
     {
-        //
+        /*
         DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
+        */
     }
 
 }

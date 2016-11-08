@@ -13,14 +13,20 @@ class DashboardOrdersView extends Migration
     public function up()
     {
         //
-        DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
+        Schema::create('view_support_months', function (Blueprint $table) {
+            $table->integer('month');
+            $table->primary('month');
+        });
+
+        Schema::create('view_support_status', function (Blueprint $table) {
+            $table->integer('status');
+            $table->primary('status');
+        });
+
         DB::statement(
-            "CREATE VIEW view_dashboard_months
-        AS
-        select 
-                    `f`.`month` AS `month`,
-                    `s`.`status` AS `status`
-                        from (select 1 AS `month`
+            "INSERT INTO view_support_months
+            SELECT f.month
+            FROM (select 1 AS `month`
                         union select 2 AS `month`
                         union select 3 AS `month` 
                         union select 4 AS `month` 
@@ -31,12 +37,27 @@ class DashboardOrdersView extends Migration
                         union select 9 AS `month` 
                         union select 10 AS `month` 
                         union select 11 AS `month` 
-                        union select 12 AS `month`) `f` 
-                    join (select 
-                        'Completed' AS `status` 
+                        union select 12 AS `month`) `f`;"
+        );
+
+        DB::statement(
+            "INSERT INTO view_support_months
+            SELECT s.`status`
+            FROM (select   'Completed' AS `status` 
                             union select 'Pending' AS `status`
                             union select 'Accepted' AS `status` 
                             union select 'Rejected' AS `status`) `s`;"
+        );
+
+        DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
+        DB::statement(
+            "CREATE VIEW view_dashboard_months
+        AS
+        select 
+                    `f`.`month` AS `month`,
+                    `s`.`status` AS `status`
+                        from view_support_month`f` 
+                    join view_support_status `s`;"
         );
 
         DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
@@ -73,7 +94,11 @@ class DashboardOrdersView extends Migration
     public function down()
     {
         //
+
         DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
+
+        Schema::drop('view_support_status');
+        Schema::drop('view_support_months');
     }
 }
