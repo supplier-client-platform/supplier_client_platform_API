@@ -27,7 +27,7 @@ class DashboardViewCreation extends Migration
             monthname(str_to_date(`t`.`month`,'%m')) AS `month_name`,
             `t`.`month` AS `month` 
                 from  `view_dashboard_months` `t` 
-                    left join `view_dashboard_order_list` `b` on(((`t`.`month` = `b`.`month`) and (`t`.`status` = `b`.`status`)));"
+                    left join `view_dashboard_order_list` `b` on(`t`.`month` = `b`.`month` and `t`.`status` = `b`.`status`);"
         );
         
     }
