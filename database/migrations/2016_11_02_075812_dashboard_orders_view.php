@@ -19,6 +19,7 @@ class DashboardOrdersView extends Migration
             $table->primary('month');
         });
 
+        Schema::drop('view_support_status');
         Schema::create('view_support_status', function (Blueprint $table) {
             $table->string('status');
             $table->primary('status');
