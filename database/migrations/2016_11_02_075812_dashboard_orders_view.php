@@ -43,7 +43,7 @@ class DashboardOrdersView extends Migration
         );
 
         DB::statement(
-            "INSERT INTO view_support_months
+            "INSERT INTO view_support_status
             SELECT s.`status`
             FROM (select  1 as `id` , 'Completed' AS `status` 
                             union select 2 as `id`,'Pending' AS `status`
