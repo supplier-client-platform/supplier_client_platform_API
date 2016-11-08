@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+ 
 
 class Order extends Model
 {
@@ -58,4 +59,8 @@ class Order extends Model
 
         return $orderBuilder->paginate(10);
     }
+    
+   public function products(){
+       return $this->hasMany(Order_product::class);
+   }
 }
