@@ -17,57 +17,44 @@ class DashboardOrdersView extends Migration
         DB::statement(
             "CREATE VIEW view_dashboard_orders
             AS
-            Select 
-            coalesce(b.orders,0) as  orders,
-            coalesce(b.status,0) as  status,
-            coalesce(b.supplier_id,0) as  supplier_id,
-            coalesce(b.gross_total,0) as  gross_total,
-            coalesce(b.net_total,0) as  net_total,
-            coalesce(b.discount,0) as  discount,
-            MONTHNAME(STR_TO_DATE(t.month, '%m')) as month_name,
-            t.month
-         
-         
-            from
-            (SELECT 1 AS `month`
-            UNION 
-            SELECT 2 AS `month`
-             UNION 
-            SELECT 3 AS `month`
-             UNION 
-            SELECT 4 AS `month`
-             UNION 
-            SELECT 5 AS `month`
-             UNION 
-            SELECT 6 AS `month`
-             UNION 
-            SELECT 7 AS `month`
-             UNION 
-            SELECT 8 AS `month`
-             UNION 
-            SELECT 9 AS `month`
-             UNION 
-            SELECT 10 AS `month`
-             UNION 
-            SELECT 11 AS `month`
-             
-            UNION 
-            SELECT 12 AS `month`
-            ) AS t
-            left join 
-            (SELECT 
-            MONTH(DATE_FORMAT(a.created_at, '%Y-%m-01')) as month, 
-            MONTHNAME(DATE_FORMAT(a.created_at, '%Y-%m-01')) as month_name, 
-            count(*) as orders,
-            a.supplier_id,
-            a.status ,
-            SUM(a.gross_total) as gross_total,
-            SUM(a.net_total) as net_total,
-            SUM(a.discount) as discount
-            
-            FROM `order` as a 
-            where a.created_at > DATE_SUB(NOW(),INTERVAL 6 MONTH) 
-            group by DATE_FORMAT(a.created_at, '%Y-%m-01'),a.supplier_id,a.status) b on (t.`month` = b.`month` );"
+            select
+            coalesce(`b`.`orders`,0) AS `orders`,
+            `t`.`status` AS `status`,
+            coalesce(`b`.`supplier_id`,0) AS `supplier_id`,
+            coalesce(`b`.`gross_total`,0) AS `gross_total`,
+            coalesce(`b`.`net_total`,0) AS `net_total`,
+            coalesce(`b`.`discount`,0) AS `discount`,
+            monthname(str_to_date(`t`.`month`,'%m')) AS `month_name`,
+            `t`.`month` AS `month` 
+                from (((select 
+                    `f`.`month` AS `month`,
+                    `s`.`status` AS `status`
+                        from ((select 1 AS `month`
+                        union select 2 AS `month`
+                        union select 3 AS `month` 
+                        union select 4 AS `month` 
+                        union select 5 AS `month` 
+                        union select 6 AS `month` 
+                        union select 7 AS `month` 
+                        union select 8 AS `month` 
+                        union select 9 AS `month` 
+                        union select 10 AS `month` 
+                        union select 11 AS `month` 
+                        union select 12 AS `month`) `f` 
+                    join (select 
+                        'Completed' AS `status` 
+                            union select 'Pending' AS `status`
+                            union select 'Accepted' AS `status` 
+                            union select 'Rejected' AS `status`) `s`))) `t` 
+                    left join (select 
+                        month(date_format(`a`.`created_at`,'%Y-%m-01')) AS `month`,
+                        monthname(date_format(`a`.`created_at`,'%Y-%m-01')) AS `month_name`,
+                        count(0) AS `orders`,`a`.`supplier_id` AS `supplier_id`,
+                        `a`.`status` AS `status`,sum(`a`.`gross_total`) AS `gross_total`,
+                        sum(`a`.`net_total`) AS `net_total`,sum(`a`.`discount`) AS `discount` 
+                    from `scp`.`order` `a`
+                    where (`a`.`created_at` > (now() - interval 6 month))
+                    group by date_format(`a`.`created_at`,'%Y-%m-01'),`a`.`supplier_id`,`a`.`status`) `b` on(((`t`.`month` = `b`.`month`) and (`t`.`status` = `b`.`status`))));"
         );
     }
 
