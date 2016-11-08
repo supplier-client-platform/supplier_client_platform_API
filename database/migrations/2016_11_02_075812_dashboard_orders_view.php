@@ -21,8 +21,8 @@ class DashboardOrdersView extends Migration
 
         Schema::drop('view_support_status');
         Schema::create('view_support_status', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('status');
-            $table->primary('status');
         });
 
         DB::statement(
