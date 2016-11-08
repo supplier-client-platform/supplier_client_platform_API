@@ -3,8 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DashboardOrdersView extends Migration
+class DashboardViews extends Migration
 {
+  
     /**
      * Run the migrations.
      *
@@ -12,14 +13,14 @@ class DashboardOrdersView extends Migration
      */
     public function up()
     {
-        /*
-        Schema::drop('view_support_months');
+        //
+
         Schema::create('view_support_months', function (Blueprint $table) {
             $table->integer('month');
             $table->primary('month');
         });
 
-        Schema::drop('view_support_status');
+
         Schema::create('view_support_status', function (Blueprint $table) {
             $table->increments('id');
             $table->string('status');
@@ -50,6 +51,8 @@ class DashboardOrdersView extends Migration
                             union select 3 as `id`,'Accepted' AS `status` 
                             union select 4 as `id`,'Rejected' AS `status`) `s`;"
         );
+        
+        
 
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
         DB::statement(
@@ -93,7 +96,6 @@ class DashboardOrdersView extends Migration
                 from view_dashboard_months `t` 
                     left join view_dashboard_order_list `b` on(((`t`.`month` = `b`.`month`) and (`t`.`status` = `b`.`status`)));"
         );
-        */
     }
 
     /**
@@ -105,13 +107,11 @@ class DashboardOrdersView extends Migration
     {
         //
 
-        /*
         DB::statement("DROP VIEW IF EXISTS view_dashboard_orders");
         DB::statement("DROP VIEW IF EXISTS view_dashboard_months");
         DB::statement("DROP VIEW IF EXISTS view_dashboard_order_list");
 
         Schema::drop('view_support_status');
         Schema::drop('view_support_months');
-        */
     }
 }
