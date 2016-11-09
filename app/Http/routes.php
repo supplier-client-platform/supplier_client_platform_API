@@ -110,6 +110,13 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('sales_stats/supplier/{id}', 'DashboardController@sales');
         Route::get('widget_stats/supplier/{id}', 'DashboardController@statsWidget');
     });
+
+    Route::group(['prefix' => 'reports'], function() {
+        Route::POST('sales_reports/supplier/{id}', 'ReportController@sales');
+        Route::POST('order_reports/supplier/{id}', 'ReportController@orders');
+        Route::POST('brand_reports/supplier/{id}', 'ReportController@brands');
+        Route::POST('product_reports/supplier/{id}', 'ReportController@products');
+    });
 });
 
 

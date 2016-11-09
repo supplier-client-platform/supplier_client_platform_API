@@ -80,7 +80,7 @@ class OrderController extends Controller
                 ->join('product', 'order_product.product_id', '=', 'product.id')
                 ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('order_product.order_id', $id)
-                ->paginate();
+                ->get();
 
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Order not found']], 404);
