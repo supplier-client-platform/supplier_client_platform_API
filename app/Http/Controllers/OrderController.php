@@ -22,7 +22,6 @@ class OrderController extends Controller
         try {
             return Order::getOrders($data);
         } catch (Exception $e) {
-//            return response($e.'');
             return response(['data' => ['status' => 'fail', 'message' => 'Query failed.']], 500);
         }
     }
@@ -45,7 +44,7 @@ class OrderController extends Controller
                 'supplier_id' => $data['supplier_id']
             ]);
 
-            foreach($data['shopping_list'] as $item) {
+            foreach ($data['shopping_list'] as $item) {
                 Order_product::create([
                     'product_id' => $item['product_ID'],
                     'product_quantity' => $item['product_quantity'],
@@ -66,17 +65,18 @@ class OrderController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function getOrderProducts($id) {
+    public function getOrderProducts($id)
+    {
         try {
             return DB::table('order_product')
                 ->select(
-                'order_product.product_id',
-                'product.name',
-                'brand.brandname',
-                'product.price',
-                'order_product.product_quantity',
-                'order_product.total_price'
-            )
+                    'order_product.product_id',
+                    'product.name',
+                    'brand.brandname',
+                    'product.price',
+                    'order_product.product_quantity',
+                    'order_product.total_price'
+                )
                 ->join('product', 'order_product.product_id', '=', 'product.id')
                 ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('order_product.order_id', $id)
@@ -90,8 +90,8 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -117,7 +117,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

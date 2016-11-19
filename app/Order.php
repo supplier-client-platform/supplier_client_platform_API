@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
- 
+
 
 class Order extends Model
 {
@@ -14,11 +14,12 @@ class Order extends Model
         'updated_at'
     ];
 
-    public static function getOrders($data) {
-
+    public static function getOrders($data)
+    {
         $orderBuilder = self::select(
             'order.id',
             'order.created_at',
+            'order.updated_at',
             'order.status',
             'order.gross_total',
             'order.net_total',
@@ -31,36 +32,35 @@ class Order extends Model
             ->join('customer', 'order.customer_id', '=', 'customer.id')
             ->where('order.supplier_id', $data['marketPlaceId']);
 
-        if (isset( $data['contact_number'])) {
-            $orderBuilder->where('customer.contact', 'like', '%'.$data['contact_number'].'%');
+        if (isset($data['contact_number'])) {
+            $orderBuilder->where('customer.contact', 'like', '%' . $data['contact_number'] . '%');
         }
 
-        if (isset( $data['status'])) {
+        if (isset($data['status'])) {
             $orderBuilder->where('order.status', $data['status']);
         }
 
-        if (isset( $data['orderId'])) {
+        if (isset($data['orderId'])) {
             $orderBuilder->where('order.id', $data['orderId']);
         }
 
-        if (isset( $data['customer_name'])) {
-            $orderBuilder->where('customer.name', 'like', '%'.$data['customer_name'].'%');
+        if (isset($data['customer_name'])) {
+            $orderBuilder->where('customer.name', 'like', '%' . $data['customer_name'] . '%');
         }
 
-        if (isset( $data['startDate']) && isset( $data['endDate'])) {
+        if (isset($data['startDate']) && isset($data['endDate']) && !isset($data['type'])) {
             $orderBuilder->whereBetween('order.created_at', [$data['startDate'], $data['endDate']]);
         }
 
-//        $dataJson = unserialize($orderBuilder->shopping_list);
-//        var_dump($dataJson);
-        //dd($orderBuilder->get());
-//        http://psampaz.github.io/custom-data-pagination-with-laravel-5/
-//        https://laracasts.com/discuss/channels/laravel/manual-pagination-in-laravel-51
+        if (isset($data['startDate']) && isset($data['endDate']) && isset($data['type'])) {
+            $orderBuilder->whereBetween('order.updated_at', [$data['startDate'], $data['endDate']]);
+        }
 
         return $orderBuilder->paginate(10);
     }
-    
-   public function products(){
-       return $this->hasMany(Order_product::class);
-   }
+
+    public function products()
+    {
+        return $this->hasMany(Order_product::class);
+    }
 }
