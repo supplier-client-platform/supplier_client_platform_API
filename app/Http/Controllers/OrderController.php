@@ -34,7 +34,7 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        try {
+
             $data = $request->all();
 
             $order = Order::create([
@@ -45,19 +45,18 @@ class OrderController extends Controller
                 'supplier_id' => $data['supplier_id']
             ]);
 
+
             foreach($data['shopping_list'] as $item) {
                 Order_product::create([
-                    'product_id' => $item['product_ID'],
-                    'product_quantity' => $item['product_quantity'],
-                    'total_price' => $item['total_price'],
+                    'product_id' => $item['productID'],
+                    'product_quantity' => $item['productquantity'],
+                    'total_price' => $item['totalprice'],
                     'order_id' => $order->id
                 ]);
             }
 
             return response(['data' => ['status' => 'success', 'message' => 'Create order successful']], 200);
-        } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Create order failed. Check parameters sent']], 400);
-        }
+
     }
 
     /**
