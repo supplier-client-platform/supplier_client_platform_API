@@ -11,25 +11,6 @@
 |
 */
 
-
-/*Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login',function(){
-    return view('login');
-});
-
-Route::get('/signup',function(){
-    return view('signup');
-});
-
-Route::group(['middleware' => 'web'], function() {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});*/
-
 // CHANGED : Auth:api was removed temporarily for faster development and testing.
 // TODO : Enable 'middleware' => 'auth:api' again.
 
@@ -112,7 +93,6 @@ Route::group(['prefix' => 'api/v1'], function() {
     });
 
     Route::group(['prefix' => 'reports'], function() {
-        Route::POST('sales_reports/supplier/{id}', 'ReportController@sales');
         Route::POST('order_reports/supplier/{id}', 'ReportController@orders');
         Route::POST('brand_reports/supplier/{id}', 'ReportController@brands');
         Route::POST('product_reports/supplier/{id}', 'ReportController@products');

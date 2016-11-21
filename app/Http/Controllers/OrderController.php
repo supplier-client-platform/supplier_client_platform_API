@@ -22,7 +22,6 @@ class OrderController extends Controller
         try {
             return Order::getOrders($data);
         } catch (Exception $e) {
-//            return response($e.'');
             return response(['data' => ['status' => 'fail', 'message' => 'Query failed.']], 500);
         }
     }
@@ -36,27 +35,29 @@ class OrderController extends Controller
     {
 
             $data = $request->all();
-
-            $order = Order::create([
-                'customer_id' => $data['customer_id'],
-                'gross_total' => $data['gross_total'],
-                'discount' => $data['discount'],
-                'net_total' => $data['net_total'],
-                'supplier_id' => $data['supplier_id']
-            ]);
-
-
-            foreach($data['shopping_list'] as $item) {
-                Order_product::create([
-                    'product_id' => $item['productID'],
-                    'product_quantity' => $item['productquantity'],
-                    'total_price' => $item['totalprice'],
-                    'order_id' => $order->id
+//            try {
+                $order = Order::create([
+                    'customer_id' => $data['customer_id'],
+                    'gross_total' => $data['gross_total'],
+                    'discount' => $data['discount'],
+                    'net_total' => $data['net_total'],
+                    'supplier_id' => $data['supplier_id']
                 ]);
-            }
 
-            return response(['data' => ['status' => 'success', 'message' => 'Create order successful']], 200);
 
+                foreach ($data['shopping_list'] as $item) {
+                    Order_product::create([
+                        'product_id' => $item['productID'],
+                        'product_quantity' => $item['productquantity'],
+                        'total_price' => $item['totalprice'],
+                        'order_id' => $order->id
+                    ]);
+                }
+
+                return response(['data' => ['status' => 'success', 'message' => 'Create order successful']], 200);
+//            }catch (Exception $e){
+//                return response(['data' => ['status' => 'failed', 'message' => 'Create order unsuccessful']], 400);
+//            }
     }
 
     /**
@@ -65,17 +66,18 @@ class OrderController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function getOrderProducts($id) {
+    public function getOrderProducts($id)
+    {
         try {
             return DB::table('order_product')
                 ->select(
-                'order_product.product_id',
-                'product.name',
-                'brand.brandname',
-                'product.price',
-                'order_product.product_quantity',
-                'order_product.total_price'
-            )
+                    'order_product.product_id',
+                    'product.name',
+                    'brand.brandname',
+                    'product.price',
+                    'order_product.product_quantity',
+                    'order_product.total_price'
+                )
                 ->join('product', 'order_product.product_id', '=', 'product.id')
                 ->join('brand', 'product.brand_id', '=', 'brand.id')
                 ->where('order_product.order_id', $id)
@@ -89,8 +91,8 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -116,7 +118,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
