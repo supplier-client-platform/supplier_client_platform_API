@@ -65,6 +65,11 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::post('create/new', 'TemplateController@create');
     });
 
+
+    Route::group(['prefix' => 'customer'], function() {
+        Route::post('create/new', 'CustomerController@create');
+    });
+
     Route::group(['prefix' => 'order'], function() {
         Route::get('all', 'OrderController@index');
         Route::get('products/order_id/{id}', 'OrderController@getOrderProducts');

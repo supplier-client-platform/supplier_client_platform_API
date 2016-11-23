@@ -12,6 +12,22 @@ class ReportViews extends Migration
      */
     public function up()
     {
+
+        DB::statement("DROP VIEW IF EXISTS view_dashboard_order_list");
+        DB::statement(
+            "CREATE VIEW view_dashboard_order_list
+            AS
+            select 
+            month(date_format(`a`.`created_at`,'%Y-%m-01')) AS `month`,
+            monthname(date_format(`a`.`created_at`,'%Y-%m-01')) AS `month_name`,
+            count(0) AS `orders`,`a`.`supplier_id` AS `supplier_id`,
+            `a`.`status` AS `status`,sum(`a`.`gross_total`) AS `gross_total`,
+            sum(`a`.`net_total`) AS `net_total`,sum(`a`.`discount`) AS `discount` 
+            from `order` `a`
+            where (`a`.`created_at` > (now() - interval 6 month))
+            group by date_format(`a`.`created_at`,'%Y-%m-01'),`a`.`supplier_id`,`a`.`status`;"
+        );
+
         DB::statement("DROP VIEW IF EXISTS view_report_sales");
         DB::statement(
             "CREATE VIEW view_report_sales
@@ -46,5 +62,6 @@ class ReportViews extends Migration
     {
         //
         DB::statement("DROP VIEW IF EXISTS view_report_sales");
+        DB::statement("DROP VIEW IF EXISTS view_dashboard_order_list");
     }
 }

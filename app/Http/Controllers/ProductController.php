@@ -6,7 +6,6 @@ use App\Product;
 use App\Template;
 use Illuminate\Http\Request;
 use Exception;
-use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
