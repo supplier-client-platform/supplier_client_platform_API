@@ -29,9 +29,10 @@ class ReportController extends Controller
         $data['type'] = 'Report';
 
         try {
-            return Order::getOrders($data);
+            $orders =  Order::getOrders($data);
+           return  response()->json(['data' => $orders], 404);
         } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => ' Details not found']], 404);
+            return response()->json(['data' => ['status' => 'fail', 'message' => ' Details not found']], 404);
         }
     }
 
@@ -55,10 +56,10 @@ class ReportController extends Controller
                 ->groupBy('brand_id', 'brand_name')
                 ->get();
 
-            return response(['data' => ['brand_sales' => $brand_sales]], 200);
+            return response()->json(['data' => ['brand_sales' => $brand_sales]]);
 
         } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Brand details not found']], 404);
+            return response()->json(['data' => ['status' => 'fail', 'message' => 'Brand details not found']], 404);
         }
     }
 
@@ -83,10 +84,10 @@ class ReportController extends Controller
                 ->groupBy('product_id', 'product_name', 'brand_name')
                 ->get();
 
-            return response(['data' => ['product_sales' => $product_sales]], 200);
+            return response()->json(['data' => ['product_sales' => $product_sales]], 200);
 
         } catch (Exception $e) {
-            return response(['data' => ['status' => 'fail', 'message' => 'Product details not found']], 404);
+            return response()->json(['data' => ['status' => 'fail', 'message' => 'Product details not found']], 404);
         }
     }
 }
