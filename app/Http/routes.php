@@ -108,7 +108,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 
     // TODO : Remove these methods; they are only for testing.
     // pass customer id here.
-    Route::get('testPusher_mobile', function($id) {
+    Route::get('testPusher_mobile/{id}', function($id) {
         $message_common = "We are sorry, your order was turned down because reasons";
         // Send notification to mobile
         Pusher::trigger('order', 'order_mobile_notifications'.$id, ['message' => $message_common]);
