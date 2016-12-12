@@ -60,7 +60,7 @@ class Order extends Model
 
         if (isset($data['status'])) {
             if($data['status'] == 'Pending' || $data['status'] == 'Accepted'){
-                return $orderBuilder->get();
+                return $orderBuilder->paginate(10000);
             }
         }
         return $orderBuilder->paginate(25);
