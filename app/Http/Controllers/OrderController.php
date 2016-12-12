@@ -55,7 +55,7 @@ class OrderController extends Controller
                     ]);
                 }
 
-                Pusher::trigger('order', 'order_web_notifications', ['message' => 'New order arrived!']);
+                Pusher::trigger('order', 'order_web_notifications'.$data['supplier_id'], ['message' => 'New order arrived!']);
                 return response(['data' => ['status' => 'success', 'message' => 'Create order successful']], 200);
 //            }catch (Exception $e){
 //                return response(['data' => ['status' => 'failed', 'message' => 'Create order unsuccessful']], 400);
