@@ -30,32 +30,35 @@ class ProductController extends Controller
     {
         $data = $request->all();
 
-
-        Product::create([
-            'name' => $data['name'],
-            'brand_id' => $data['brand_id'],
-            'price' => $data['price'],
-            'status' => $data['status'],
-            'custom_attr' => serialize($data['custom_attr']),
-            'supplier_id' => $data['supplier_id'],
-            'img_url' =>  $data['img_url'],
-            'description' => 'undefined',
-            'quantity' => 0,
-            'category_id' => $data['category_id']
-        ]);
-
-        //if the template is new
-        if($data['template_id'] =='0'){
-            $template = new Template;
-            $template->name = $data['template_name'];
-            $template->supplier_id = $data['supplier_id'];
-            $template->custom_attr = serialize($data['custom_attr']);
-            $template->save();
+        if (Product::where('brand_id', $data['brand_id'])->where('supplier_id',$data['supplier_id'])->where('name', $data['name'])->count() > 0) {
+            return response(['data' => ['status' => 'failed', 'message' => 'Product already exists for this Supplier']], 409);
         }
+        else {
+            Product::create([
+                'name' => $data['name'],
+                'brand_id' => $data['brand_id'],
+                'price' => $data['price'],
+                'status' => $data['status'],
+                'custom_attr' => serialize($data['custom_attr']),
+                'supplier_id' => $data['supplier_id'],
+                'img_url' =>  $data['img_url'],
+                'description' => 'undefined',
+                'quantity' => 0,
+                'category_id' => $data['category_id']
+            ]);
 
-        return response('Success', 200);    // XXX: Better option is to return the model itself.
+            //if the template is new
+            if($data['template_id'] =='0'){
+                $template = new Template;
+                $template->name = $data['template_name'];
+                $template->supplier_id = $data['supplier_id'];
+                $template->custom_attr = serialize($data['custom_attr']);
+                $template->save();
+            }
 
-
+            return response(['data' => ['status' => 'success', 'message' => 'Product created']], 200);
+//            return response('Success', 200);    // XXX: Better option is to return the model itself.
+        }
     }
 
     /**
