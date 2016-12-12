@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
+use Vinkla\Pusher\Facades\Pusher;
 
 class OrderController extends Controller
 {
@@ -54,6 +55,7 @@ class OrderController extends Controller
                     ]);
                 }
 
+                Pusher::trigger('order', 'order_web_notifications', ['message' => 'New order arrived!']);
                 return response(['data' => ['status' => 'success', 'message' => 'Create order successful']], 200);
 //            }catch (Exception $e){
 //                return response(['data' => ['status' => 'failed', 'message' => 'Create order unsuccessful']], 400);
@@ -103,9 +105,10 @@ class OrderController extends Controller
             $thisOrder = Order::findOrFail($id);
             $thisOrder->status = $data['status'];
             if ($data['status'] == 'Rejected' || $data['status'] == 'Cancelled') {
+                $message_common = "We are sorry, your order was ".$data['status']." because ";
                 $thisOrder->message = $data['reason'];
                 // Send notification to mobile
-                // TODO : talk with Nipuna regarding this
+                Pusher::trigger('order', 'order_mobile_notifications'.$thisOrder->customer_id, ['message' => $message_common.$thisOrder->message]);
             }
             $thisOrder->save();
 

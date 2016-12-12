@@ -1,5 +1,7 @@
 <?php
 
+use Vinkla\Pusher\Facades\Pusher; // ONLY FOR TESTING PURPOSES!
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -102,6 +104,20 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::POST('order_reports/supplier/{id}', 'ReportController@orders');
         Route::POST('brand_reports/supplier/{id}', 'ReportController@brands');
         Route::POST('product_reports/supplier/{id}', 'ReportController@products');
+    });
+
+    // TODO : Remove these methods; they are only for testing.
+    // pass customer id here.
+    Route::get('testPusher_mobile', function($id) {
+        $message_common = "We are sorry, your order was turned down because reasons";
+        // Send notification to mobile
+        Pusher::trigger('order', 'order_mobile_notifications'.$id, ['message' => $message_common]);
+    });
+
+    Route::get('testPusher_web', function() {
+        $message_common = "Pusher working!";
+        // Send notification to web
+        Pusher::trigger('order', 'order_mobile_notifications', ['message' => $message_common]);
     });
 });
 
