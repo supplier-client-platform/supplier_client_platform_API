@@ -151,14 +151,14 @@ class UserController extends Controller
     public function changePassword(Request $request) {
 
         try {
-            $user = User::where('email', $request->email)->firstOrFail();
+            $user = User::findOrFail($request->id);
 
             if (Hash::check($request->password, $user->password)) {
                  $user->password = Hash::make($request->newPassword);
                 $user->save();
                 return response(['data' => ['status' => 'success', 'message' => 'Password reset successful']], 200);
             } else {
-                return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Check parameters sent.']], 400);
+                return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Wrong existing Password.']], 400);
             }
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Not found.']], 404);
