@@ -95,6 +95,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('order_stats/supplier/{id}', 'DashboardController@orders');
         Route::get('sales_stats/supplier/{id}', 'DashboardController@sales');
         Route::get('widget_stats/supplier/{id}', 'DashboardController@statsWidget');
+        Route::get('sidebar/supplier/{id}', 'DashboardController@sidebar');
     });
 
     Route::group(['prefix' => 'reports'], function() {

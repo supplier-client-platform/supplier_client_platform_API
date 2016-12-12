@@ -9,7 +9,8 @@ use DB;
 use App\ViewDashboardOrder;
 use Exception;
 use App\Order;
-use Carbon\Carbon;
+use App\Product;
+use App\Brand;
 use App\Order_product;
 
 class DashboardController extends Controller
@@ -121,6 +122,18 @@ class DashboardController extends Controller
 
     }
 
+    public function sidebar($id){
+        //product count
+        $product = Product::where('supplier_id',$id)->count();
+        //brand count
+        $brand = Brand::where('supplier_id',$id)->count();
+        //pending count
+        $pending = Order::where('supplier_id',$id)->where('status','Pending')->count();
+        //accepted count
+        $accepted =  Order::where('supplier_id',$id)->where('status','Accepted')->count();
+
+        return response(['data'=>['product'=>$product, 'brand'=>  ($brand-1), 'pending'=>$pending,'accepted'=>$accepted]],200);
+    }
 
     private function getMonths($duration){
 
