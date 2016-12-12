@@ -117,7 +117,8 @@ Route::group(['prefix' => 'api/v1'], function() {
     Route::get('testPusher_web', function() {
         $message_common = "Pusher working!";
         // Send notification to web
-        Pusher::trigger('order', 'order_mobile_notifications', ['message' => $message_common]);
+        Pusher::trigger('order', 'order_web
+        _notifications', ['message' => $message_common]);
     });
 });
 

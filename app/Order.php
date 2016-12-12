@@ -56,7 +56,14 @@ class Order extends Model
             $orderBuilder->whereBetween('order.updated_at', [$data['startDate'], $data['endDate']]);
         }
 
-        return $orderBuilder->paginate(10);
+
+
+        if (isset($data['status'])) {
+            if($data['status'] == 'Pending' || $data['status'] == 'Accepted'){
+                return $orderBuilder->paginate(10000);
+            }
+        }
+        return $orderBuilder->paginate(25);
     }
 
     public function products()
