@@ -84,6 +84,9 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('all', 'BusinessController@index');
         Route::get('details/user_id/{id}', 'BusinessController@show');
         Route::post('update/business_id/{id}', 'BusinessController@update');
+        Route::post('branch/create/{id}', 'BusinessController@branchCreate');
+        Route::post('branch/update/{id}', 'BusinessController@branchUpdate');
+        Route::get('branch/list/{id}', 'BusinessController@branchList');
     });
 
     // To be tested

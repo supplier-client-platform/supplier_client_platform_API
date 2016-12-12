@@ -6,6 +6,7 @@ use App\Supplier;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Branch;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -131,7 +132,45 @@ class BusinessController extends Controller
             return response(['data' => ['status' => 'success', 'message' => 'Update successful']], 200);
        
     }
+    public function branchCreate(Request $request, $id)
+    {
 
+        $branch = new Branch;
+
+        $branch->address = $request->address;
+        $branch->lat = $request->lat;
+        $branch->lng = $request->lng;
+        $branch->phone =$request->phone;
+        $branch->branchname = $request->name;
+        $branch->supplier_id = $id;
+
+        $branch->save();
+
+        return response(['data' => ['status' => 'success', 'message' => ' successful']], 200);
+
+    }
+
+    public function branchUpdate(Request $request, $id)
+    {
+
+        $branch = Branch::find($request->id);
+
+        $branch->address = $request->address;
+        $branch->lat = $request->lat;
+        $branch->lng = $request->lng;
+        $branch->phone =$request->phone;
+        $branch->branchname = $request->name;
+
+        $branch->save();
+
+        return response(['data' => ['status' => 'success', 'message' => ' update successful']], 200);
+
+    }
+
+    public function branchList(Request $request, $id)
+    {
+        return Branch::where('supplier_id',$id)->get();
+    }
     /**
      * Remove the specified resource from storage.
      *
