@@ -171,6 +171,14 @@ class BusinessController extends Controller
     {
         return Branch::where('supplier_id',$id)->get();
     }
+
+    public function branchDelete(Request $request, $id)
+    {
+        $branch = Branch::find($id);
+        $branch->delete();
+
+        return response(['data' => ['status' => 'success', 'message' => ' delete successful']], 200);
+    }
     /**
      * Remove the specified resource from storage.
      *

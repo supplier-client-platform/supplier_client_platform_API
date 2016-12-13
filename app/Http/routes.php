@@ -87,6 +87,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::post('branch/create/{id}', 'BusinessController@branchCreate');
         Route::post('branch/update/{id}', 'BusinessController@branchUpdate');
         Route::get('branch/list/{id}', 'BusinessController@branchList');
+        Route::get('branch/delete/{id}', 'BusinessController@branchDelete');
     });
 
     // To be tested

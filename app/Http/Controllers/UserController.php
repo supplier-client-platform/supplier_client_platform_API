@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
+use App\Branch;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -87,6 +88,19 @@ class UserController extends Controller
                 'brandname' => 'N/A',
                 'supplier_id' => $supplier->id,
             ]);
+
+           $address = json_decode($supplier->address);
+            $branch = new Branch;
+
+            $branch->address =  $address->address;
+            $branch->lat =$address->lat;
+            $branch->lng = $address->lng;
+            $branch->phone = $data['company_contact'];
+            $branch->branchname = 'Main Office';
+            $branch->supplier_id =  $supplier->id;
+
+            $branch->save();
+
 
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
