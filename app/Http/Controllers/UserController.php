@@ -89,17 +89,7 @@ class UserController extends Controller
                 'supplier_id' => $supplier->id,
             ]);
 
-           $address = json_decode($supplier->address);
-            $branch = new Branch;
 
-            $branch->address =  $address->address;
-            $branch->lat =$address->lat;
-            $branch->lng = $address->lng;
-            $branch->phone = $data['company_contact'];
-            $branch->branchname = 'Main Office';
-            $branch->supplier_id =  $supplier->id;
-
-            $branch->save();
 
 
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
