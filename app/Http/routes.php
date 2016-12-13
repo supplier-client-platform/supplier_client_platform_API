@@ -1,6 +1,7 @@
 <?php
 
 use Vinkla\Pusher\Facades\Pusher; // ONLY FOR TESTING PURPOSES!
+use Illuminate\Support\Facades\Mail; // ONLY FOR TESTING PURPOSES!
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,6 @@ Route::group(['prefix' => 'api/v1'], function() {
     // TO be tested
     Route::get('business/categories/all', 'MiscellaneousController@getBusinessCategoryList');
 
-    // TODO: Write a middleware for access controlling later
     // --Tested!
     Route::group([], function() {
         Route::get('users/get/all', 'UserController@getAllUsers');
@@ -37,7 +37,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::put('users/update/user_id/{id}', 'UserController@updateUser');
         Route::post('users/regen_auth', 'UserController@regenerateUserAuth');  // DO NOT USE AUTH MIDDLEWARE
         Route::post('users/password/change', 'UserController@changePassword'); // USE AUTH MIDDLEWARE
-        // Route::patch('users/password/reset', 'UserController@resetPassword'); // DO NOT USE AUTH MIDDLEWARE
+        Route::post('users/password/reset', 'UserController@resetPassword'); // DO NOT USE AUTH MIDDLEWARE
         Route::delete('users/delete/user_id/{id}', 'UserController@deleteUser');
     });
 
@@ -47,7 +47,6 @@ Route::group(['prefix' => 'api/v1'], function() {
         Route::get('product_id/{id}', 'ProductController@show');
         Route::post('create/new', 'ProductController@create');
         Route::post('update/{id}', 'ProductController@update');
-        // TODO: Add a product Remove
     });
 
     // TO be tested
@@ -123,6 +122,20 @@ Route::group(['prefix' => 'api/v1'], function() {
         // Send notification to web
         Pusher::trigger('order', 'order_web
         _notifications', ['message' => $message_common]);
+    });
+
+    Route::get('test_mail', function() {
+
+        $new_user = [
+            'name' => 'test',
+            'email' => 'danurajay@gmail.com'
+        ];
+
+        Mail::send('emails.welcome', ['data' => $new_user], function ($m) use ($new_user) {
+            $m->from(env('MAIL_FROM'), env('MAIL_NAME'));
+
+            $m->to($new_user['email'], $new_user['email'])->subject('Welcome to Supplier Client Platform!');
+        });
     });
 });
 

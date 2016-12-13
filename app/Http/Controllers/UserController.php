@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Supplier;
 use App\User;
+use App\Brand;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
 use App\Branch;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -50,8 +52,6 @@ class UserController extends Controller
         }
     }
 
-    // TODO: Create a separate method to add new admins, if it is needed.
-    // TODO: Add a validator method to validate password length, name(required) and email(required)
     /**
      * Create and save a new user instance
      * @param Request $request
@@ -66,7 +66,7 @@ class UserController extends Controller
                 'email' => $data['personal_email'],
                 'password' => bcrypt($data['password']),
                 'is_admin' => 0,
-                'api_token' => str_random(60),   // TODO: Change this to a unique str_random --CHANGED: NO NEED TO DO THIS.
+                'api_token' => str_random(60),
                 'payment_plan' => $data['payment_plan'],
                 'personal_contact' => $data['personal_contact'],
                 'terms_agreed' => $data['terms_agree']
@@ -89,8 +89,17 @@ class UserController extends Controller
                 'supplier_id' => $supplier->id,
             ]);
 
+            Mail::queue('emails.welcome', ['data' => $new_user], function ($m) use ($new_user) {
+                $m->from(env('MAIL_FROM'), env('MAIL_NAME'));
 
+                $m->to($new_user->email, $new_user->name)->subject('Welcome to Supplier Client Platform!');
+            });
 
+            Mail::queue('emails.business_reg', ['data' => $supplier], function ($m) use ($supplier) {
+                $m->from(env('MAIL_FROM'), env('MAIL_NAME'));
+
+                $m->to($supplier->email, $supplier->name)->subject('Supplier Client Platform Business registration');
+            });
 
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
@@ -160,6 +169,13 @@ class UserController extends Controller
             if (Hash::check($request->password, $user->password)) {
                  $user->password = Hash::make($request->newPassword);
                 $user->save();
+
+                Mail::queue('emails.pass_change', ['data' => $user], function ($m) use ($user) {
+                    $m->from(env('MAIL_FROM'), env('MAIL_NAME'));
+
+                    $m->to($user->email, $user->name)->subject('Password change');
+                });
+
                 return response(['data' => ['status' => 'success', 'message' => 'Password reset successful']], 200);
             } else {
                 return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Wrong existing Password.']], 400);
@@ -173,7 +189,18 @@ class UserController extends Controller
 
         try {
             $user = User::where('email', $request->email)->firstOrFail();
-            // TODO : Send a mail to this email with a randomly generated password
+            $newPassword =  str_random(8);
+            $user->password = Hash::make($newPassword);
+            $user->save();
+            $data2 = [
+                'newPassword' => $newPassword
+            ];
+
+            Mail::queue('emails.pass_reset', ['data' => $user, 'data2' => $data2], function ($m) use ($user) {
+                $m->from(env('MAIL_FROM'), env('MAIL_NAME'));
+
+                $m->to($user->email, $user->name)->subject('Password reset');
+            });
             return response(['data' => ['status' => 'success', 'message' => 'Password reset successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Password reset failed. Not found.']], 404);
