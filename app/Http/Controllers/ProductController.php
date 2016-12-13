@@ -115,22 +115,25 @@ class ProductController extends Controller
         $data = $request->all();
 
         try{
-            Product::where('id', $id)
-                ->update([
-                    'name' => $data['name'],
-                    'brand_id' => $data['brand_id'],
-                    'price' => $data['price'],
-                    'status' => $data['status'],
-                    'custom_attr' => serialize($data['custom_attr']),
-                    'supplier_id' => $data['supplier_id'],
-                    'img_url' => $data['img_url'],
-                    'description' => 'undefined',
-                    'quantity' => 0,
-                    'category_id' => $data['category_id'],  
-                ]);
+            if (Product::where('brand_id', $data['brand_id'])->where('supplier_id',$data['supplier_id'])->where('name', $data['name'])->where('id','!=', $id)->count() > 0) {
+                return response(['data' => ['status' => 'failed', 'message' => 'Cannot Update, The Updated Information  already exists for another product']], 409);
+            }else {
+                Product::where('id', $id)
+                    ->update([
+                        'name' => $data['name'],
+                        'brand_id' => $data['brand_id'],
+                        'price' => $data['price'],
+                        'status' => $data['status'],
+                        'custom_attr' => serialize($data['custom_attr']),
+                        'supplier_id' => $data['supplier_id'],
+                        'img_url' => $data['img_url'],
+                        'description' => 'undefined',
+                        'quantity' => 0,
+                        'category_id' => $data['category_id'],
+                    ]);
 
-            return response('Success', 200);    // XXX: Better option is to return the model itself.
-
+                return response('Success', 200);    // XXX: Better option is to return the model itself.
+            }
         } catch(Exception $e) {
             return response('Product not found', 404);
         }

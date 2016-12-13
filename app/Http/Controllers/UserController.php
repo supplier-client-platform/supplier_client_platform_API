@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests;
+use App\Branch;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -87,6 +88,9 @@ class UserController extends Controller
                 'brandname' => 'N/A',
                 'supplier_id' => $supplier->id,
             ]);
+
+
+
 
             return response(['data' => ['status' => 'success', 'message' => 'Creation successful']], 200);
         } catch (Exception $e) {
