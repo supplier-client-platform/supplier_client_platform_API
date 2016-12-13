@@ -27,6 +27,7 @@ class BrandController extends Controller
                DB::raw('brand.id , brand.brandname, (select count(*) from product p where p.brand_id = brand.id) as count')
             )
                 ->where('supplier_id', $supplier)
+                ->where('status','Active')
                 ->get();
 
         }catch (Exception $e) {
