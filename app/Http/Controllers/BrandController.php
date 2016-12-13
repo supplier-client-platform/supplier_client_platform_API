@@ -116,7 +116,7 @@ class BrandController extends Controller
     public function destroy($id)
     {
         try {
-            $brand = Brand::find('id', $id);
+            $brand = Brand::find($id);
             $brand->delete();
             response(['data' => ['status' => 'success', 'message' => 'Delete successful']], 200);
         } catch (Exception $e) {
