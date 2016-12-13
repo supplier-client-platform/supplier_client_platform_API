@@ -27,7 +27,6 @@ class BrandController extends Controller
                DB::raw('brand.id , brand.brandname, (select count(*) from product p where p.brand_id = brand.id) as count')
             )
                 ->where('supplier_id', $supplier)
-                ->where('status','Active')
                 ->get();
 
         }catch (Exception $e) {
@@ -117,11 +116,9 @@ class BrandController extends Controller
     public function destroy($id)
     {
         try {
-            Brand::where('id', $id)
-                ->update([
-                    'status' => 'Deprecated'
-                ]);
-            return response(['data' => ['status' => 'success', 'message' => 'Delete successful']], 200);
+            $brand = Brand::find('id', $id);
+            $brand->delete();
+            response(['data' => ['status' => 'success', 'message' => 'Delete successful']], 200);
         } catch (Exception $e) {
             return response(['data' => ['status' => 'fail', 'message' => 'Delete failed. Item Not found.']], 404);
         }
