@@ -108,7 +108,7 @@ class OrderController extends Controller
                 $message_common = "We are sorry, your order was ".$data['status']." because ";
                 $thisOrder->message = $data['reason'];
                 // Send notification to mobile
-                Pusher::trigger('order', 'order_mobile_notifications'.$thisOrder->customer_id, ['data' => ['message' => $message_common.$thisOrder->message], 'customer_id' => $thisOrder->customer_id]);
+                Pusher::trigger('order', 'order_mobile_notifications'.$thisOrder->customer_id, ['data' => ['message' => $message_common.$thisOrder->message], 'customer_id' => $thisOrder->customer_id, 'status' => $data['status']]);
             }
             $thisOrder->save();
 
